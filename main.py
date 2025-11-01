@@ -70,8 +70,17 @@ try:
     from multi_tenant import MultiTenantManager
 except ImportError:
     MultiTenantManager = None
-from apscheduler.schedulers.background import BackgroundScheduler
-import pytz
+
+# Optional scheduler
+try:
+    from apscheduler.schedulers.background import BackgroundScheduler
+except ImportError:
+    BackgroundScheduler = None
+
+try:
+    import pytz
+except ImportError:
+    pytz = None
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
