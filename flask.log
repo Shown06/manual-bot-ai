@@ -1,0 +1,199 @@
+2025-11-01 15:19:08,076 - __main__ - INFO - ✅ PDF変換エンジン初期化成功
+2025-11-01 15:19:08,076 - __main__ - INFO - ✅ メール通知システム初期化成功
+2025-11-01 15:19:08,079 - __main__ - INFO - ✅ マルチテナント管理システム初期化成功
+/Users/two-de-sir/new-line-project/main.py:167: LineBotSdkDeprecatedIn30: Call to deprecated class LineBotApi. (Use v3 class; linebot.v3.<feature>. See https://github.com/line/line-bot-sdk-python/blob/master/README.rst for more details.) -- Deprecated since version 3.0.0.
+  line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
+/Users/two-de-sir/new-line-project/main.py:168: LineBotSdkDeprecatedIn30: Call to deprecated class WebhookHandler. (Use 'from linebot.v3.webhook import WebhookHandler' instead. See https://github.com/line/line-bot-sdk-python/blob/master/README.rst for more details.) -- Deprecated since version 3.0.0.
+  handler = WebhookHandler(LINE_CHANNEL_SECRET)
+2025-11-01 15:19:08,093 - __main__ - INFO - Database initialized successfully
+⚠️ SQLiteモードで動作
+Initializing LINE Bot - ACCESS_TOKEN: True, SECRET: True
+ * Serving Flask app 'main'
+ * Debug mode: off
+2025-11-01 15:19:08,101 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://192.168.25.45:8080
+2025-11-01 15:19:08,101 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-01 15:19:25,316 - __main__ - INFO - Webhook received - Body length: 296, Signature: test...
+2025-11-01 15:19:25,316 - __main__ - INFO - LINE_CHANNEL_SECRET available: True
+2025-11-01 15:19:25,316 - __main__ - WARNING - No valid signature, attempting manual processing
+2025-11-01 15:19:25,316 - __main__ - INFO - Received webhook events: 1
+2025-11-01 15:19:25,316 - __main__ - INFO - Manual processing message from U7e1c32868dab73e2852161aa72833a2a: このマニュアルについて教えてください
+2025-11-01 15:19:41,002 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-01 15:19:41,023 - __main__ - INFO - AI response generated successfully for user 1: このマニュアルは、株式会社トランビによるM&AプラットフォームTRANBI（トランビ）の案件情報に関するものです。特に、大阪心斎橋の一等地に位置するカプセルホテルの運営権譲渡情報を詳細に記載しています...
+/Users/two-de-sir/new-line-project/main.py:1006: LineBotSdkDeprecatedIn30: Call to deprecated method reply_message. (Use 'from linebot.v3.messaging import MessagingApi' and 'MessagingApi(...).reply_message(...)' instead. See https://github.com/line/line-bot-sdk-python/blob/master/README.rst for more details.) -- Deprecated since version 3.0.0.
+  line_bot_api.reply_message(
+2025-11-01 15:19:41,217 - __main__ - WARNING - Failed to send reply to LINE (AI response was generated): LineBotApiError: status_code=400, request_id=ab494aa7-33bd-492b-8e0b-a73cb3ff8ad2, error_response={"details": [], "message": "Invalid reply token"}, headers={'server': 'legy', 'cache-control': 'no-cache, no-store, max-age=0, must-revalidate', 'content-type': 'application/json', 'date': 'Sat, 01 Nov 2025 06:19:41 GMT', 'expires': '0', 'pragma': 'no-cache', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'ab494aa7-33bd-492b-8e0b-a73cb3ff8ad2', 'x-xss-protection': '1; mode=block', 'content-length': '33'}
+2025-11-01 15:19:41,274 - werkzeug - INFO - 127.0.0.1 - - [01/Nov/2025 15:19:41] "POST /webhook HTTP/1.1" 200 -
+2025-11-01 15:24:00,512 - __main__ - INFO - Webhook received - Body length: 576, Signature: 0plZvh/l+8PJkZdlpx8g...
+2025-11-01 15:24:00,513 - __main__ - INFO - LINE_CHANNEL_SECRET available: True
+2025-11-01 15:24:00,513 - __main__ - INFO - Using LINE SDK handler for message processing
+2025-11-01 15:24:17,839 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-01 15:24:17,867 - __main__ - INFO - AI response generated for user 1: このマニュアルは、2025年に作成された会社譲渡の案件に関する情報を提供しています。譲渡対象となるのは、大阪心斎橋に位置するカプセルホテルの運営権で、これが業種としての「ホテル・旅館・簡易宿泊施設・民...
+/Users/two-de-sir/new-line-project/main.py:921: LineBotSdkDeprecatedIn30: Call to deprecated method reply_message. (Use 'from linebot.v3.messaging import MessagingApi' and 'MessagingApi(...).reply_message(...)' instead. See https://github.com/line/line-bot-sdk-python/blob/master/README.rst for more details.) -- Deprecated since version 3.0.0.
+  line_bot_api.reply_message(
+2025-11-01 15:24:18,123 - werkzeug - INFO - 127.0.0.1 - - [01/Nov/2025 15:24:18] "POST /webhook HTTP/1.1" 200 -
+2025-11-01 15:25:02,520 - __main__ - INFO - Webhook received - Body length: 575, Signature: FAsMqe2RtadS737SC7Xj...
+2025-11-01 15:25:02,521 - __main__ - INFO - LINE_CHANNEL_SECRET available: True
+2025-11-01 15:25:02,521 - __main__ - INFO - Using LINE SDK handler for message processing
+2025-11-01 15:25:08,374 - __main__ - INFO - Webhook received - Body length: 570, Signature: U7I7yIvWw5FwYkdv5zTd...
+2025-11-01 15:25:08,374 - __main__ - INFO - LINE_CHANNEL_SECRET available: True
+2025-11-01 15:25:08,375 - __main__ - INFO - Using LINE SDK handler for message processing
+2025-11-01 15:25:09,651 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-01 15:25:09,654 - __main__ - INFO - AI response generated for user 1: 売却希望価格は60万円となっています。...
+2025-11-01 15:25:09,892 - werkzeug - INFO - 127.0.0.1 - - [01/Nov/2025 15:25:09] "POST /webhook HTTP/1.1" 200 -
+2025-11-01 15:25:17,214 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-01 15:25:17,217 - __main__ - INFO - AI response generated for user 1: このマニュアルは、株式会社トランビが提供する事業承継・M&Aプラットフォーム「TRANBI」上で公開された、カプセルホテル運営権譲渡の案件についての詳細情報をまとめたものです。
+
+譲渡対象となる会社の...
+2025-11-01 15:25:17,377 - __main__ - ERROR - Message handling error: LineBotApiError: status_code=400, request_id=698b3782-01ef-4b27-85c8-a9563be4418a, error_response={"details": [], "message": "Invalid reply token"}, headers={'server': 'legy', 'cache-control': 'no-cache, no-store, max-age=0, must-revalidate', 'content-type': 'application/json', 'date': 'Sat, 01 Nov 2025 06:25:17 GMT', 'expires': '0', 'pragma': 'no-cache', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '698b3782-01ef-4b27-85c8-a9563be4418a', 'x-xss-protection': '1; mode=block', 'content-length': '33'}
+/Users/two-de-sir/new-line-project/main.py:935: LineBotSdkDeprecatedIn30: Call to deprecated method reply_message. (Use 'from linebot.v3.messaging import MessagingApi' and 'MessagingApi(...).reply_message(...)' instead. See https://github.com/line/line-bot-sdk-python/blob/master/README.rst for more details.) -- Deprecated since version 3.0.0.
+  line_bot_api.reply_message(
+2025-11-01 15:25:17,592 - werkzeug - INFO - 127.0.0.1 - - [01/Nov/2025 15:25:17] "POST /webhook HTTP/1.1" 200 -
+2025-11-01 15:25:19,622 - __main__ - INFO - Webhook received - Body length: 563, Signature: odr0s5544aDl8hzxsyaI...
+2025-11-01 15:25:19,623 - __main__ - INFO - LINE_CHANNEL_SECRET available: True
+2025-11-01 15:25:19,623 - __main__ - INFO - Using LINE SDK handler for message processing
+2025-11-01 15:25:19,873 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-01 15:25:19,874 - openai._base_client - INFO - Retrying request to /chat/completions in 20.496000 seconds
+2025-11-01 15:25:40,840 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-01 15:25:40,841 - openai._base_client - INFO - Retrying request to /chat/completions in 1.512000 seconds
+2025-11-01 15:25:46,059 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-01 15:25:46,065 - __main__ - INFO - AI response generated for user 1: 申し訳ございませんが、アップロードされたマニュアルには税込みまたは税別に関する情報は明記されておりません。具体的な内容についてはマニュアルの記載をご確認いただくか、直接関係者にお問い合わせください。...
+2025-11-01 15:25:46,353 - werkzeug - INFO - 127.0.0.1 - - [01/Nov/2025 15:25:46] "POST /webhook HTTP/1.1" 200 -
+2025-11-01 15:26:04,527 - __main__ - INFO - Webhook received - Body length: 575, Signature: FAsMqe2RtadS737SC7Xj...
+2025-11-01 15:26:04,528 - __main__ - INFO - LINE_CHANNEL_SECRET available: True
+2025-11-01 15:26:04,528 - __main__ - INFO - Using LINE SDK handler for message processing
+2025-11-01 15:26:05,084 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-01 15:26:05,085 - openai._base_client - INFO - Retrying request to /chat/completions in 15.744000 seconds
+2025-11-01 15:26:21,560 - __main__ - INFO - Webhook received - Body length: 562, Signature: BLH5qd6/FJ/NE2Ay/Dcz...
+2025-11-01 15:26:21,561 - __main__ - INFO - LINE_CHANNEL_SECRET available: True
+2025-11-01 15:26:21,561 - __main__ - INFO - Using LINE SDK handler for message processing
+2025-11-01 15:26:25,148 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-01 15:26:25,151 - __main__ - INFO - AI response generated for user 1: 申し訳ございません。アップロードされたマニュアル内には、「税込」または「税別」に関する情報は明記されておりません。そのため、その詳細を提供することはできません。他にマニュアルに関するご質問がありました...
+2025-11-01 15:26:25,327 - __main__ - ERROR - Message handling error: LineBotApiError: status_code=400, request_id=629e258d-e527-4b5d-b5c0-3d1f056da694, error_response={"details": [], "message": "Invalid reply token"}, headers={'server': 'legy', 'cache-control': 'no-cache, no-store, max-age=0, must-revalidate', 'content-type': 'application/json', 'date': 'Sat, 01 Nov 2025 06:26:25 GMT', 'expires': '0', 'pragma': 'no-cache', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '629e258d-e527-4b5d-b5c0-3d1f056da694', 'x-xss-protection': '1; mode=block', 'content-length': '33'}
+2025-11-01 15:26:25,515 - werkzeug - INFO - 127.0.0.1 - - [01/Nov/2025 15:26:25] "POST /webhook HTTP/1.1" 200 -
+2025-11-01 15:26:38,261 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-01 15:26:38,264 - __main__ - INFO - AI response generated for user 1: このマニュアルは、株式会社トランビが提供するM&Aプラットフォーム、TRANBIにおける、カプセルホテル運営権の譲渡情報を詳細に説明したものです。以下に主要な情報をまとめています：
+
+- 譲渡対象の会...
+2025-11-01 15:26:38,539 - __main__ - ERROR - Message handling error: LineBotApiError: status_code=400, request_id=6b7ce92e-3f1d-4d50-a3a2-200940f5a281, error_response={"details": [], "message": "Invalid reply token"}, headers={'server': 'legy', 'cache-control': 'no-cache, no-store, max-age=0, must-revalidate', 'content-type': 'application/json', 'date': 'Sat, 01 Nov 2025 06:26:38 GMT', 'expires': '0', 'pragma': 'no-cache', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '6b7ce92e-3f1d-4d50-a3a2-200940f5a281', 'x-xss-protection': '1; mode=block', 'content-length': '33'}
+2025-11-01 15:26:38,812 - werkzeug - INFO - 127.0.0.1 - - [01/Nov/2025 15:26:38] "POST /webhook HTTP/1.1" 200 -
+2025-11-01 15:27:06,548 - __main__ - INFO - Webhook received - Body length: 575, Signature: FAsMqe2RtadS737SC7Xj...
+2025-11-01 15:27:06,548 - __main__ - INFO - LINE_CHANNEL_SECRET available: True
+2025-11-01 15:27:06,548 - __main__ - INFO - Using LINE SDK handler for message processing
+2025-11-01 15:27:06,952 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-01 15:27:06,953 - openai._base_client - INFO - Retrying request to /chat/completions in 20.556000 seconds
+2025-11-01 15:27:23,648 - __main__ - INFO - Webhook received - Body length: 562, Signature: BLH5qd6/FJ/NE2Ay/Dcz...
+2025-11-01 15:27:23,649 - __main__ - INFO - LINE_CHANNEL_SECRET available: True
+2025-11-01 15:27:23,649 - __main__ - INFO - Using LINE SDK handler for message processing
+2025-11-01 15:27:24,062 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-01 15:27:24,063 - openai._base_client - INFO - Retrying request to /chat/completions in 16.890000 seconds
+2025-11-01 15:27:41,349 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-01 15:27:41,350 - openai._base_client - INFO - Retrying request to /chat/completions in 20.136000 seconds
+2025-11-01 15:27:43,406 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-01 15:27:43,408 - __main__ - INFO - AI response generated for user 1: このマニュアルは、株式会社トランビによって作成されたM&Aの案件情報を含んでいます。具体的には、大阪心斎橋一等地に位置するカプセルホテルの運営権譲渡についての情報を詳細に説明しています。
+
+該当の会社...
+2025-11-01 15:27:43,624 - __main__ - ERROR - Message handling error: LineBotApiError: status_code=400, request_id=2f636753-55f4-4740-96b6-5dc230360ace, error_response={"details": [], "message": "Invalid reply token"}, headers={'server': 'legy', 'cache-control': 'no-cache, no-store, max-age=0, must-revalidate', 'content-type': 'application/json', 'date': 'Sat, 01 Nov 2025 06:27:43 GMT', 'expires': '0', 'pragma': 'no-cache', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '2f636753-55f4-4740-96b6-5dc230360ace', 'x-xss-protection': '1; mode=block', 'content-length': '33'}
+2025-11-01 15:27:43,873 - werkzeug - INFO - 127.0.0.1 - - [01/Nov/2025 15:27:43] "POST /webhook HTTP/1.1" 200 -
+2025-11-01 15:28:02,116 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-01 15:28:02,134 - __main__ - ERROR - OpenAI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4 in organization org-2MFJwYfDOnVTE2rRivrneqes on tokens per min (TPM): Limit 10000, Used 9891, Requested 3416. Please try again in 19.842s. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}
+2025-11-01 15:28:02,134 - __main__ - INFO - AI response generated for user 1: 申し訳ございません。現在システムに問題が発生しています。しばらく経ってから再度お試しください。...
+2025-11-01 15:28:02,301 - __main__ - ERROR - Message handling error: LineBotApiError: status_code=400, request_id=55caf0fe-d09c-4094-9b6b-713c4c8a1082, error_response={"details": [], "message": "Invalid reply token"}, headers={'server': 'legy', 'cache-control': 'no-cache, no-store, max-age=0, must-revalidate', 'content-type': 'application/json', 'date': 'Sat, 01 Nov 2025 06:28:02 GMT', 'expires': '0', 'pragma': 'no-cache', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '55caf0fe-d09c-4094-9b6b-713c4c8a1082', 'x-xss-protection': '1; mode=block', 'content-length': '33'}
+2025-11-01 15:28:02,502 - werkzeug - INFO - 127.0.0.1 - - [01/Nov/2025 15:28:02] "POST /webhook HTTP/1.1" 200 -
+2025-11-01 15:28:08,554 - __main__ - INFO - Webhook received - Body length: 575, Signature: FAsMqe2RtadS737SC7Xj...
+2025-11-01 15:28:08,554 - __main__ - INFO - LINE_CHANNEL_SECRET available: True
+2025-11-01 15:28:08,554 - __main__ - INFO - Using LINE SDK handler for message processing
+2025-11-01 15:28:08,929 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-01 15:28:08,930 - openai._base_client - INFO - Retrying request to /chat/completions in 13.080000 seconds
+2025-11-01 15:28:25,579 - __main__ - INFO - Webhook received - Body length: 562, Signature: BLH5qd6/FJ/NE2Ay/Dcz...
+2025-11-01 15:28:25,580 - __main__ - INFO - LINE_CHANNEL_SECRET available: True
+2025-11-01 15:28:25,580 - __main__ - INFO - Using LINE SDK handler for message processing
+2025-11-01 15:28:26,093 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-01 15:28:26,095 - openai._base_client - INFO - Retrying request to /chat/completions in 16.434000 seconds
+2025-11-01 15:28:44,327 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-01 15:28:44,331 - __main__ - INFO - AI response generated for user 1: このマニュアルは、株式会社トランビが提供する「事業承継・M&AプラットフォームTRANBI」における、大阪心斎橋に位置するカプセルホテルの運営権譲渡の案件情報を詳細に記載したものです。
+
+譲渡対象とな...
+2025-11-01 15:28:44,600 - __main__ - ERROR - Message handling error: LineBotApiError: status_code=400, request_id=863f886e-f1d7-4bb7-a452-62b7f54598ce, error_response={"details": [], "message": "Invalid reply token"}, headers={'server': 'legy', 'cache-control': 'no-cache, no-store, max-age=0, must-revalidate', 'content-type': 'application/json', 'date': 'Sat, 01 Nov 2025 06:28:44 GMT', 'expires': '0', 'pragma': 'no-cache', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '863f886e-f1d7-4bb7-a452-62b7f54598ce', 'x-xss-protection': '1; mode=block', 'content-length': '33'}
+2025-11-01 15:28:44,769 - werkzeug - INFO - 127.0.0.1 - - [01/Nov/2025 15:28:44] "POST /webhook HTTP/1.1" 200 -
+2025-11-01 15:28:45,870 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-01 15:28:45,871 - __main__ - INFO - AI response generated for user 1: 申し訳ございません。アップロードされたマニュアルの内容には、価格が税込みか税別かについての明確な記載はありません。マニュアルに関する他のご質問がありましたらお知らせください。...
+2025-11-01 15:28:46,139 - __main__ - ERROR - Message handling error: LineBotApiError: status_code=400, request_id=786afc02-175c-417b-904a-9c7a7109d315, error_response={"details": [], "message": "Invalid reply token"}, headers={'server': 'legy', 'cache-control': 'no-cache, no-store, max-age=0, must-revalidate', 'content-type': 'application/json', 'date': 'Sat, 01 Nov 2025 06:28:45 GMT', 'expires': '0', 'pragma': 'no-cache', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '786afc02-175c-417b-904a-9c7a7109d315', 'x-xss-protection': '1; mode=block', 'content-length': '33'}
+2025-11-01 15:28:46,326 - werkzeug - INFO - 127.0.0.1 - - [01/Nov/2025 15:28:46] "POST /webhook HTTP/1.1" 200 -
+2025-11-01 15:29:10,574 - __main__ - INFO - Webhook received - Body length: 575, Signature: FAsMqe2RtadS737SC7Xj...
+2025-11-01 15:29:10,575 - __main__ - INFO - LINE_CHANNEL_SECRET available: True
+2025-11-01 15:29:10,575 - __main__ - INFO - Using LINE SDK handler for message processing
+2025-11-01 15:29:25,926 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-01 15:29:25,932 - __main__ - INFO - AI response generated for user 1: このマニュアルは、株式会社トランビが提供する国内最大級の事業承継・M&Aプラットフォーム、TRANBI（トランビ）を使用して、企業の譲渡情報を提供しているものです。
+
+譲渡対象の会社は、ホテル・旅館業...
+2025-11-01 15:29:26,186 - __main__ - ERROR - Message handling error: LineBotApiError: status_code=400, request_id=07fb666e-36cd-4895-9d4d-7cd19ca36e20, error_response={"details": [], "message": "Invalid reply token"}, headers={'server': 'legy', 'cache-control': 'no-cache, no-store, max-age=0, must-revalidate', 'content-type': 'application/json', 'date': 'Sat, 01 Nov 2025 06:29:25 GMT', 'expires': '0', 'pragma': 'no-cache', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '07fb666e-36cd-4895-9d4d-7cd19ca36e20', 'x-xss-protection': '1; mode=block', 'content-length': '33'}
+2025-11-01 15:29:26,441 - werkzeug - INFO - 127.0.0.1 - - [01/Nov/2025 15:29:26] "POST /webhook HTTP/1.1" 200 -
+2025-11-01 15:29:27,571 - __main__ - INFO - Webhook received - Body length: 562, Signature: BLH5qd6/FJ/NE2Ay/Dcz...
+2025-11-01 15:29:27,571 - __main__ - INFO - LINE_CHANNEL_SECRET available: True
+2025-11-01 15:29:27,571 - __main__ - INFO - Using LINE SDK handler for message processing
+2025-11-01 15:29:27,790 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-01 15:29:27,791 - openai._base_client - INFO - Retrying request to /chat/completions in 20.496000 seconds
+2025-11-01 15:29:48,752 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-01 15:29:48,753 - openai._base_client - INFO - Retrying request to /chat/completions in 20.496000 seconds
+2025-11-01 15:30:09,703 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-01 15:30:09,705 - __main__ - ERROR - OpenAI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4 in organization org-2MFJwYfDOnVTE2rRivrneqes on tokens per min (TPM): Limit 10000, Used 8631, Requested 3416. Please try again in 12.282s. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}
+2025-11-01 15:30:09,706 - __main__ - INFO - AI response generated for user 1: 申し訳ございません。現在システムに問題が発生しています。しばらく経ってから再度お試しください。...
+2025-11-01 15:30:09,941 - __main__ - ERROR - Message handling error: LineBotApiError: status_code=400, request_id=a3e6dd28-90f4-4e79-9e99-1b82a73b1e82, error_response={"details": [], "message": "Invalid reply token"}, headers={'server': 'legy', 'cache-control': 'no-cache, no-store, max-age=0, must-revalidate', 'content-type': 'application/json', 'date': 'Sat, 01 Nov 2025 06:30:09 GMT', 'expires': '0', 'pragma': 'no-cache', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'a3e6dd28-90f4-4e79-9e99-1b82a73b1e82', 'x-xss-protection': '1; mode=block', 'content-length': '33'}
+2025-11-01 15:30:10,150 - werkzeug - INFO - 127.0.0.1 - - [01/Nov/2025 15:30:10] "POST /webhook HTTP/1.1" 200 -
+2025-11-01 15:30:12,534 - __main__ - INFO - Webhook received - Body length: 575, Signature: FAsMqe2RtadS737SC7Xj...
+2025-11-01 15:30:12,534 - __main__ - INFO - LINE_CHANNEL_SECRET available: True
+2025-11-01 15:30:12,534 - __main__ - INFO - Using LINE SDK handler for message processing
+2025-11-01 15:30:26,149 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-01 15:30:26,152 - __main__ - INFO - AI response generated for user 1: このマニュアルは、会社の譲渡情報を詳細に記載したものです。具体的には、大阪市中央区心斎橋筋に位置するカプセルホテルの運営権譲渡に関する情報が掲載されています。
+
+譲渡対象となる会社の会計年度は2025...
+2025-11-01 15:30:26,367 - __main__ - ERROR - Message handling error: LineBotApiError: status_code=400, request_id=b13fbb3d-d581-4073-8f9f-a9bd24e3fad8, error_response={"details": [], "message": "Invalid reply token"}, headers={'server': 'legy', 'cache-control': 'no-cache, no-store, max-age=0, must-revalidate', 'content-type': 'application/json', 'date': 'Sat, 01 Nov 2025 06:30:26 GMT', 'expires': '0', 'pragma': 'no-cache', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'b13fbb3d-d581-4073-8f9f-a9bd24e3fad8', 'x-xss-protection': '1; mode=block', 'content-length': '33'}
+2025-11-01 15:30:26,533 - werkzeug - INFO - 127.0.0.1 - - [01/Nov/2025 15:30:26] "POST /webhook HTTP/1.1" 200 -
+2025-11-01 15:30:29,567 - __main__ - INFO - Webhook received - Body length: 562, Signature: BLH5qd6/FJ/NE2Ay/Dcz...
+2025-11-01 15:30:29,567 - __main__ - INFO - LINE_CHANNEL_SECRET available: True
+2025-11-01 15:30:29,567 - __main__ - INFO - Using LINE SDK handler for message processing
+2025-11-01 15:30:29,799 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-01 15:30:29,800 - openai._base_client - INFO - Retrying request to /chat/completions in 20.496000 seconds
+2025-11-01 15:30:50,621 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-01 15:30:50,623 - openai._base_client - INFO - Retrying request to /chat/completions in 12.036000 seconds
+2025-11-01 15:31:05,654 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-01 15:31:05,662 - __main__ - INFO - AI response generated for user 1: 申し訳ございません。アップロードされたマニュアルには税込または税別に関する情報は明記されておりません。具体的な税金に関する情報についてのご質問があれば、それに対応する情報がマニュアルに含まれている場合...
+2025-11-01 15:31:05,853 - __main__ - ERROR - Message handling error: LineBotApiError: status_code=400, request_id=09be04da-70ef-4fac-a0db-74fd7565b596, error_response={"details": [], "message": "Invalid reply token"}, headers={'server': 'legy', 'cache-control': 'no-cache, no-store, max-age=0, must-revalidate', 'content-type': 'application/json', 'date': 'Sat, 01 Nov 2025 06:31:05 GMT', 'expires': '0', 'pragma': 'no-cache', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '09be04da-70ef-4fac-a0db-74fd7565b596', 'x-xss-protection': '1; mode=block', 'content-length': '33'}
+2025-11-01 15:31:06,117 - werkzeug - INFO - 127.0.0.1 - - [01/Nov/2025 15:31:06] "POST /webhook HTTP/1.1" 200 -
+2025-11-01 15:31:14,541 - __main__ - INFO - Webhook received - Body length: 575, Signature: FAsMqe2RtadS737SC7Xj...
+2025-11-01 15:31:14,541 - __main__ - INFO - LINE_CHANNEL_SECRET available: True
+2025-11-01 15:31:14,541 - __main__ - INFO - Using LINE SDK handler for message processing
+2025-11-01 15:31:14,887 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-01 15:31:14,888 - openai._base_client - INFO - Retrying request to /chat/completions in 20.556000 seconds
+2025-11-01 15:31:31,582 - __main__ - INFO - Webhook received - Body length: 562, Signature: BLH5qd6/FJ/NE2Ay/Dcz...
+2025-11-01 15:31:31,584 - __main__ - INFO - LINE_CHANNEL_SECRET available: True
+2025-11-01 15:31:31,584 - __main__ - INFO - Using LINE SDK handler for message processing
+2025-11-01 15:31:32,022 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-01 15:31:32,023 - openai._base_client - INFO - Retrying request to /chat/completions in 9.150000 seconds
+2025-11-01 15:31:35,691 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-01 15:31:35,692 - openai._base_client - INFO - Retrying request to /chat/completions in 5.532000 seconds
+2025-11-01 15:31:45,193 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-01 15:31:45,198 - __main__ - INFO - AI response generated for user 1: 申し訳ございません。アップロードされたマニュアルの内容には、税込または税別に関する具体的な記載はありません。マニュアルに関するご質問をお願いいたします。...
+2025-11-01 15:31:45,472 - __main__ - ERROR - Message handling error: LineBotApiError: status_code=400, request_id=a406a3d5-df46-4fbd-b66a-7f0ed3277d6d, error_response={"details": [], "message": "Invalid reply token"}, headers={'server': 'legy', 'cache-control': 'no-cache, no-store, max-age=0, must-revalidate', 'content-type': 'application/json', 'date': 'Sat, 01 Nov 2025 06:31:45 GMT', 'expires': '0', 'pragma': 'no-cache', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'a406a3d5-df46-4fbd-b66a-7f0ed3277d6d', 'x-xss-protection': '1; mode=block', 'content-length': '33'}
+2025-11-01 15:31:45,681 - werkzeug - INFO - 127.0.0.1 - - [01/Nov/2025 15:31:45] "POST /webhook HTTP/1.1" 200 -
+2025-11-01 15:31:52,639 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-01 15:31:52,640 - __main__ - INFO - AI response generated for user 1: このマニュアルは、2025年8月期の会社の譲渡に関する情報を提供しています。譲渡対象は、大阪市中央区心斎橋筋に位置し、日本最大級の客室数を誇るカプセルホテルの運営権です。その主な理由は新規事業展開への...
+2025-11-01 15:31:52,792 - __main__ - ERROR - Message handling error: LineBotApiError: status_code=400, request_id=07e1a468-43cf-454f-afa5-625c5a951f88, error_response={"details": [], "message": "Invalid reply token"}, headers={'server': 'legy', 'cache-control': 'no-cache, no-store, max-age=0, must-revalidate', 'content-type': 'application/json', 'date': 'Sat, 01 Nov 2025 06:31:52 GMT', 'expires': '0', 'pragma': 'no-cache', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '07e1a468-43cf-454f-afa5-625c5a951f88', 'x-xss-protection': '1; mode=block', 'content-length': '33'}
+2025-11-01 15:31:52,957 - werkzeug - INFO - 127.0.0.1 - - [01/Nov/2025 15:31:52] "POST /webhook HTTP/1.1" 200 -
+2025-11-01 15:32:16,556 - __main__ - INFO - Webhook received - Body length: 575, Signature: FAsMqe2RtadS737SC7Xj...
+2025-11-01 15:32:16,556 - __main__ - INFO - LINE_CHANNEL_SECRET available: True
+2025-11-01 15:32:16,556 - __main__ - INFO - Using LINE SDK handler for message processing
+2025-11-01 15:32:31,768 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-01 15:32:31,774 - __main__ - INFO - AI response generated for user 1: このマニュアルは、会社の譲渡情報について詳しく説明したものです。譲渡対象は、大阪市に所在地を持つ会社で、業種はホテル・旅館、簡易宿泊施設・民泊・ゲストハウス、旅行・観光です。譲渡資産は営業権・FCで、...
+2025-11-01 15:32:32,096 - __main__ - ERROR - Message handling error: LineBotApiError: status_code=400, request_id=1e4620a0-2a3d-4bde-89ad-01463b4d3e6b, error_response={"details": [], "message": "Invalid reply token"}, headers={'server': 'legy', 'cache-control': 'no-cache, no-store, max-age=0, must-revalidate', 'content-type': 'application/json', 'date': 'Sat, 01 Nov 2025 06:32:32 GMT', 'expires': '0', 'pragma': 'no-cache', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '1e4620a0-2a3d-4bde-89ad-01463b4d3e6b', 'x-xss-protection': '1; mode=block', 'content-length': '33'}
+2025-11-01 15:32:32,304 - werkzeug - INFO - 127.0.0.1 - - [01/Nov/2025 15:32:32] "POST /webhook HTTP/1.1" 200 -
+2025-11-01 15:32:33,597 - __main__ - INFO - Webhook received - Body length: 562, Signature: BLH5qd6/FJ/NE2Ay/Dcz...
+2025-11-01 15:32:33,597 - __main__ - INFO - LINE_CHANNEL_SECRET available: True
+2025-11-01 15:32:33,597 - __main__ - INFO - Using LINE SDK handler for message processing
+2025-11-01 15:32:37,874 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-01 15:32:37,876 - __main__ - INFO - AI response generated for user 1: 申し訳ございません。アップロードされたマニュアルの内容では税込または税別についての明確な言及はありません。マニュアルに関する具体的な質問をお願いいたします。...
+2025-11-01 15:32:38,048 - __main__ - ERROR - Message handling error: LineBotApiError: status_code=400, request_id=a8ac26c7-bc40-404e-9720-a8d155e4a209, error_response={"details": [], "message": "Invalid reply token"}, headers={'server': 'legy', 'cache-control': 'no-cache, no-store, max-age=0, must-revalidate', 'content-type': 'application/json', 'date': 'Sat, 01 Nov 2025 06:32:37 GMT', 'expires': '0', 'pragma': 'no-cache', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'a8ac26c7-bc40-404e-9720-a8d155e4a209', 'x-xss-protection': '1; mode=block', 'content-length': '33'}
+2025-11-01 15:32:38,254 - werkzeug - INFO - 127.0.0.1 - - [01/Nov/2025 15:32:38] "POST /webhook HTTP/1.1" 200 -
