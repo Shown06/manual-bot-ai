@@ -855,49 +855,76 @@ def webhook():
     """Handle LINE webhook events."""
     # Handle GET request (for webhook verification)
     if request.method == 'GET':
-        logger.info("Webhook verification request received")
+        logger.info("Webhook GET verification request received")
         return 'OK', 200
 
     # Get request body and signature
-    body = request.get_data(as_text=True)
-    signature = request.headers.get('X-Line-Signature', '')
+    try:
+        body = request.get_data(as_text=True)
+        signature = request.headers.get('X-Line-Signature', '')
+    except Exception as e:
+        logger.error(f"Error reading webhook request: {e}")
+        return 'OK', 200  # Return 200 to prevent LINE from retrying
+
+    # Handle empty body (verification request)
+    if not body or body.strip() == '' or body == '{}':
+        logger.info("Empty webhook body received (verification request)")
+        return 'OK', 200
 
     # Debug logging
-    logger.info(f"Webhook received - Body length: {len(body)}, Signature: {signature[:20]}...")
-    logger.info(f"LINE_CHANNEL_SECRET available: {bool(LINE_CHANNEL_SECRET)}")
+    logger.info(f"Webhook received - Body length: {len(body)}, Signature: {signature[:20] if signature else 'None'}...")
+    logger.info(f"LINE_CHANNEL_SECRET available: {bool(LINE_CHANNEL_SECRET)}, Handler available: {bool(handler)}")
 
     # Verify signature and process webhook
     try:
-        # Always try handler.handle first (it calls @handler.add decorated functions)
-        if handler and signature and len(signature) >= 10:
-            logger.info("Using LINE SDK handler for message processing")
+        # Check if handler is available
+        if not handler:
+            logger.warning("Handler is None - LINE Bot not properly initialized")
+            return 'OK', 200  # Return 200 to avoid 400 errors
+        
+        # Check if signature is present (required for security)
+        if not signature or len(signature) < 10:
+            logger.warning("No valid signature in webhook request")
+            # For verification, return 200 even without signature
+            if not body or body.strip() == '' or body == '{}':
+                return 'OK', 200
+            # For actual messages without signature, return 400 for security
+            abort(400)
+        
+        # Process webhook with handler
+        try:
             handler.handle(body, signature)
-        else:
-            logger.warning("No valid signature, attempting manual processing")
-            # Manual processing for testing/fallback
-            import json
-            json_body = json.loads(body)
-            logger.info(f"Received webhook events: {len(json_body.get('events', []))}")
+            logger.info("Webhook processed successfully by handler")
+        except Exception as handler_error:
+            logger.error(f"Handler processing error: {str(handler_error)}")
+            import traceback
+            traceback.print_exc()
+            # Try manual processing as fallback
+            try:
+                import json
+                json_body = json.loads(body)
+                events = json_body.get('events', [])
+                logger.info(f"Attempting manual processing for {len(events)} events")
+                
+                for event in events:
+                    if event.get('type') == 'message' and event.get('message', {}).get('type') == 'text':
+                        line_user_id = event.get('source', {}).get('userId')
+                        message_text = event.get('message', {}).get('text')
+                        reply_token = event.get('replyToken')
 
-            # Process events manually
-            for event in json_body.get('events', []):
-                if event.get('type') == 'message' and event.get('message', {}).get('type') == 'text':
-                    line_user_id = event.get('source', {}).get('userId')
-                    message_text = event.get('message', {}).get('text')
-                    reply_token = event.get('replyToken')
+                        if message_text and reply_token:
+                            logger.info(f"Manual processing message from {line_user_id}: {message_text}")
+                            handle_text_message_manual(line_user_id, message_text, reply_token)
+            except Exception as manual_error:
+                logger.error(f"Manual processing also failed: {str(manual_error)}")
 
-                    if message_text and reply_token:
-                        logger.info(f"Manual processing message from {line_user_id}: {message_text}")
-                        handle_text_message_manual(line_user_id, message_text, reply_token)
-
-    except InvalidSignatureError as e:
-        logger.error(f"Invalid LINE signature: {str(e)}")
-        # Don't process if signature is invalid (security)
-        abort(400)
     except Exception as e:
         logger.error(f"Webhook processing error: {str(e)}")
         import traceback
         traceback.print_exc()
+        # Return 200 for verification requests, 500 for actual errors
+        if not body or body.strip() == '' or body == '{}':
+            return 'OK', 200
         abort(500)
     
     return 'OK', 200
