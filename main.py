@@ -244,6 +244,7 @@ def init_db():
         file_path TEXT,
         file_size INTEGER,
         content TEXT,
+        tenant_id INTEGER,
         uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (user_id) REFERENCES users (id)
     )''')
