@@ -35,7 +35,19 @@ except ImportError:
 
 import hashlib
 from datetime import datetime, timedelta
+# Initialize logging early
 import logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.StreamHandler(),  # Console output
+        logging.FileHandler('app.log', mode='a', encoding='utf-8')  # File output
+    ]
+)
+
+logger = logging.getLogger(__name__)
+
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
@@ -150,17 +162,19 @@ except ImportError as e:
 app = Flask(__name__)
 app.static_folder = 'static'
 app.static_url_path = '/static'
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your-secret-key-here')
+# Security configuration
+SECRET_KEY = os.environ.get('SECRET_KEY')
+if not SECRET_KEY:
+    import secrets
+    SECRET_KEY = secrets.token_hex(32)  # Generate secure random key
+    logger.warning("SECRET_KEY not set in environment - using generated key (not recommended for production)")
+
+app.config['SECRET_KEY'] = SECRET_KEY
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50MB
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
 
-# Initialize logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
+# Logging already configured above
 
 # PDF変換エンジン初期化
 pdf_converter = None
@@ -1534,30 +1548,68 @@ Be friendly and accurate, providing only what's in the manual.""",
         if openai_client:
             logger.info(f"DEBUG: openai_client.api_key = {openai_client.api_key[:20] if openai_client.api_key else 'None'}...")
         
-        # Generate response
-        response = openai_client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": query}
-            ],
-            max_tokens=1000,
-            temperature=0.7
-        )
+        # Validate inputs
+        if not query or len(query.strip()) == 0:
+            logger.warning("Empty query received")
+            return "申し訳ございません。質問内容が空です。もう一度お試しください。"
 
-        return response.choices[0].message.content
-    
+        if len(system_prompt) > 50000:  # Prevent token limit issues
+            logger.warning(f"System prompt too long: {len(system_prompt)} characters")
+            system_prompt = system_prompt[:49000] + "\n\n... (truncated for token limit)"
+
+        # OpenAI API call with retry logic
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                response = openai_client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": query}
+                    ],
+                    max_tokens=1000,
+                    temperature=0.7,
+                    timeout=30  # 30 second timeout
+                )
+
+                if not response or not response.choices or len(response.choices) == 0:
+                    raise Exception("Empty response from OpenAI API")
+
+                ai_response = response.choices[0].message.content.strip()
+                if not ai_response:
+                    raise Exception("Empty content in OpenAI response")
+
+                logger.info(f"✅ OpenAI API call successful, response length: {len(ai_response)}")
+                return ai_response
+
+            except Exception as api_error:
+                logger.warning(f"OpenAI API attempt {attempt + 1} failed: {str(api_error)}")
+                if attempt == max_retries - 1:
+                    raise api_error
+                import time
+                time.sleep(1 * (attempt + 1))  # Exponential backoff
+
     except Exception as e:
-        logger.error(f"OpenAI API error: {e}")
+        error_msg = str(e)
+        logger.error(f"❌ OpenAI API error after {max_retries} attempts: {error_msg}")
         import traceback
         logger.error(f"Full traceback: {traceback.format_exc()}")
-        # Fallback response
-        fallback_messages = {
-            'ja': "申し訳ございません。現在システムに問題が発生しています。しばらく経ってから再度お試しください。",
-            'en': "We apologize for the inconvenience. The system is currently experiencing issues. Please try again later.",
-            'zh': "很抱歉给您带来不便。系统目前出现问题。请稍后再试。"
-        }
-        return fallback_messages.get(language, fallback_messages['ja'])
+
+        # Return user-friendly error messages based on error type
+        if "rate limit" in error_msg.lower():
+            return "申し訳ございません。現在APIの利用制限に達しています。しばらく経ってから再度お試しください。"
+        elif "timeout" in error_msg.lower() or "connection" in error_msg.lower():
+            return "申し訳ございません。応答に時間がかかりすぎています。もう一度お試しください。"
+        elif "token" in error_msg.lower():
+            return "申し訳ございません。質問が長すぎます。短くまとめて再度お試しください。"
+        else:
+            # Fallback response
+            fallback_messages = {
+                'ja': "申し訳ございません。現在システムに問題が発生しています。しばらく経ってから再度お試しください。",
+                'en': "We apologize for the inconvenience. The system is currently experiencing issues. Please try again later.",
+                'zh': "很抱歉给您带来不便。系统目前出现问题。请稍后再试。"
+            }
+            return fallback_messages.get(language, fallback_messages['ja'])
 
 @app.route('/api/generate_link_code', methods=['POST'])
 @login_required
