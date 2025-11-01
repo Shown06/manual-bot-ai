@@ -9,24 +9,28 @@ from flask import Flask, request, jsonify, render_template, render_template_stri
 from functools import wraps
 import os
 import sqlite3
-from supabase import create_client, Client
-import os
 
-# Supabase設定
-SUPABASE_URL = os.environ.get('SUPABASE_URL', '')
-SUPABASE_KEY = os.environ.get('SUPABASE_ANON_KEY', '')
+# Supabase (optional)
+USE_SUPABASE = False
+supabase_client = None
 
-if SUPABASE_URL and SUPABASE_KEY:
-    try:
-        supabase_client = create_client(SUPABASE_URL, SUPABASE_KEY)
-        USE_SUPABASE = True
-        print("✅ Supabase接続成功")
-    except Exception as e:
-        print(f"⚠️ Supabase接続失敗: {e}")
-        USE_SUPABASE = False
-else:
-    USE_SUPABASE = False
-    print("⚠️ SQLiteモードで動作")
+try:
+    from supabase import create_client, Client
+    SUPABASE_URL = os.environ.get('SUPABASE_URL', '')
+    SUPABASE_KEY = os.environ.get('SUPABASE_ANON_KEY', '')
+    
+    if SUPABASE_URL and SUPABASE_KEY:
+        try:
+            supabase_client = create_client(SUPABASE_URL, SUPABASE_KEY)
+            USE_SUPABASE = True
+            print("✅ Supabase接続成功")
+        except Exception as e:
+            print(f"⚠️ Supabase接続失敗: {e}")
+            USE_SUPABASE = False
+    else:
+        print("⚠️ SQLiteモードで動作")
+except ImportError:
+    print("⚠️ Supabase未インストール - SQLiteモードで動作")
 
 
 import hashlib
