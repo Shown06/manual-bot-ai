@@ -2547,8 +2547,19 @@ def internal_error(error):
     logger.error(f"Internal server error: {error}")
     return render_template('500.html'), 500
 
-# Initialize database on startup
-init_db()
+# Initialize database on startup with error handling
+try:
+    init_db()
+    print("✅ Database initialized successfully")
+except Exception as e:
+    print(f"⚠️ Database initialization warning: {e}")
+    # Continue anyway - database will be created on first use
+
+# Root route for healthcheck
+@app.route('/')
+def root():
+    """Root route for healthcheck."""
+    return jsonify({'status': 'ok', 'service': 'Manual Bot AI'}), 200
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))
