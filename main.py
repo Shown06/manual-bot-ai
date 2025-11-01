@@ -94,15 +94,37 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 import re
 import uuid
-from reportlab.lib import colors
-from reportlab.lib.pagesizes import letter, A4
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.cidfonts import UnicodeCIDFont
-import qrcode
 from io import BytesIO
 import base64
+
+# Optional reportlab imports
+try:
+    from reportlab.lib import colors
+    from reportlab.lib.pagesizes import letter, A4
+    from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+    from reportlab.lib.styles import getSampleStyleSheet
+    from reportlab.pdfbase import pdfmetrics
+    from reportlab.pdfbase.cidfonts import UnicodeCIDFont
+    REPORTLAB_AVAILABLE = True
+except ImportError:
+    REPORTLAB_AVAILABLE = False
+    colors = None
+    letter = None
+    A4 = None
+    SimpleDocTemplate = None
+    Table = None
+    TableStyle = None
+    Paragraph = None
+    Spacer = None
+    getSampleStyleSheet = None
+    pdfmetrics = None
+    UnicodeCIDFont = None
+
+# Optional qrcode
+try:
+    import qrcode
+except ImportError:
+    qrcode = None
 from collections import defaultdict
 import threading
 import queue
