@@ -48,11 +48,28 @@ import docx
 import PyPDF2
 import secrets
 import bcrypt
-from pdf_converter import PDFConverter
-from rag_system import RAGSystem
-from email_notifier import EmailNotifier
-from multi_tenant import MultiTenantManager
 import tempfile
+
+# Optional custom modules with error handling
+try:
+    from pdf_converter import PDFConverter
+except ImportError:
+    PDFConverter = None
+
+try:
+    from rag_system import RAGSystem
+except ImportError:
+    RAGSystem = None
+
+try:
+    from email_notifier import EmailNotifier
+except ImportError:
+    EmailNotifier = None
+
+try:
+    from multi_tenant import MultiTenantManager
+except ImportError:
+    MultiTenantManager = None
 from apscheduler.schedulers.background import BackgroundScheduler
 import pytz
 import smtplib
