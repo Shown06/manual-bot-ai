@@ -163,28 +163,40 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # PDF変換エンジン初期化
-try:
-    pdf_converter = PDFConverter()
-    logger.info("✅ PDF変換エンジン初期化成功")
-except Exception as e:
-    logger.error(f"❌ PDF変換エンジン初期化失敗: {e}")
-    pdf_converter = None
+pdf_converter = None
+if PDFConverter:
+    try:
+        pdf_converter = PDFConverter()
+        logger.info("✅ PDF変換エンジン初期化成功")
+    except Exception as e:
+        logger.error(f"❌ PDF変換エンジン初期化失敗: {e}")
+        pdf_converter = None
+else:
+    logger.warning("⚠️ PDFConverter module not available")
 
 # メール通知システム初期化
-try:
-    email_notifier = EmailNotifier()
-    logger.info("✅ メール通知システム初期化成功")
-except Exception as e:
-    logger.error(f"❌ メール通知システム初期化失敗: {e}")
-    email_notifier = None
+email_notifier = None
+if EmailNotifier:
+    try:
+        email_notifier = EmailNotifier()
+        logger.info("✅ メール通知システム初期化成功")
+    except Exception as e:
+        logger.error(f"❌ メール通知システム初期化失敗: {e}")
+        email_notifier = None
+else:
+    logger.warning("⚠️ EmailNotifier module not available")
 
 # マルチテナント管理システム初期化
-try:
-    multi_tenant = MultiTenantManager()
-    logger.info("✅ マルチテナント管理システム初期化成功")
-except Exception as e:
-    logger.error(f"❌ マルチテナント管理システム初期化失敗: {e}")
-    multi_tenant = None
+multi_tenant = None
+if MultiTenantManager:
+    try:
+        multi_tenant = MultiTenantManager()
+        logger.info("✅ マルチテナント管理システム初期化成功")
+    except Exception as e:
+        logger.error(f"❌ マルチテナント管理システム初期化失敗: {e}")
+        multi_tenant = None
+else:
+    logger.warning("⚠️ MultiTenantManager module not available")
 
 # Environment variables
 LINE_CHANNEL_ACCESS_TOKEN = os.environ.get('LINE_CHANNEL_ACCESS_TOKEN')
@@ -204,9 +216,18 @@ stripe.api_key = STRIPE_SECRET_KEY
 if not OPENAI_API_KEY:
     logger.warning("OPENAI_API_KEY not set in environment variables")
 
-# Initialize OpenAI client
+# Initialize OpenAI client with error handling
 import openai
-openai_client = openai.OpenAI(api_key=OPENAI_API_KEY)
+openai_client = None
+try:
+    if OPENAI_API_KEY:
+        openai_client = openai.OpenAI(api_key=OPENAI_API_KEY)
+        logger.info("✅ OpenAI client initialized successfully")
+    else:
+        logger.warning("⚠️ OpenAI API key not set - AI features disabled")
+except Exception as e:
+    logger.error(f"❌ OpenAI client initialization failed: {e}")
+    openai_client = None
 
 # LINE Bot configuration - require environment variables
 if not LINE_CHANNEL_ACCESS_TOKEN:
@@ -216,8 +237,19 @@ if not LINE_CHANNEL_SECRET:
     logger.warning("LINE_CHANNEL_SECRET not set in environment variables")
 
 print(f"Initializing LINE Bot - ACCESS_TOKEN: {bool(LINE_CHANNEL_ACCESS_TOKEN)}, SECRET: {bool(LINE_CHANNEL_SECRET)}")
-line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
-handler = WebhookHandler(LINE_CHANNEL_SECRET)
+line_bot_api = None
+handler = None
+try:
+    if LINE_CHANNEL_ACCESS_TOKEN and LINE_CHANNEL_SECRET:
+        line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
+        handler = WebhookHandler(LINE_CHANNEL_SECRET)
+        logger.info("✅ LINE Bot initialized successfully")
+    else:
+        logger.warning("⚠️ LINE Bot credentials not set")
+except Exception as e:
+    logger.error(f"❌ LINE Bot initialization failed: {e}")
+    line_bot_api = None
+    handler = None
 
 # Initialize rate limiter
 limiter = Limiter(
