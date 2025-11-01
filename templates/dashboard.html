@@ -12,13 +12,28 @@
 </div>
 
 <div class="card">
-    <h2>ファイルアップロード</h2>
-    <form action="/upload" method="POST" enctype="multipart/form-data">
+    <h2>📤 ファイルアップロード</h2>
+    <form id="uploadForm" enctype="multipart/form-data">
         <div class="form-group">
-            <input type="file" name="file" accept=".pdf,.docx,.txt" required>
+            <input type="file" id="fileInput" name="file" accept=".pdf,.docx,.txt" required>
         </div>
-        <button type="submit" class="btn">アップロード</button>
+        <button type="submit" class="btn" id="uploadBtn">
+            <span id="uploadBtnText">アップロード</span>
+            <span id="uploadSpinner" style="display: none;">⏳ 処理中...</span>
+        </button>
     </form>
+    
+    <!-- 成功メッセージ -->
+    <div id="uploadSuccess" style="display: none; margin-top: 20px; padding: 15px; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 8px; color: #155724;">
+        <h3 style="margin: 0 0 10px 0; font-size: 18px;">✅ アップロード完了！</h3>
+        <p style="margin: 0; font-size: 14px;" id="uploadSuccessMsg"></p>
+    </div>
+    
+    <!-- エラーメッセージ -->
+    <div id="uploadError" style="display: none; margin-top: 20px; padding: 15px; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 8px; color: #721c24;">
+        <h3 style="margin: 0 0 10px 0; font-size: 18px;">❌ エラー</h3>
+        <p style="margin: 0; font-size: 14px;" id="uploadErrorMsg"></p>
+    </div>
 </div>
 
 <div class="card">
@@ -112,6 +127,87 @@
 </div>
 
 <script>
+// ファイルアップロード処理
+document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const fileInput = document.getElementById('fileInput');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const uploadBtnText = document.getElementById('uploadBtnText');
+    const uploadSpinner = document.getElementById('uploadSpinner');
+    const uploadSuccess = document.getElementById('uploadSuccess');
+    const uploadError = document.getElementById('uploadError');
+    const uploadSuccessMsg = document.getElementById('uploadSuccessMsg');
+    const uploadErrorMsg = document.getElementById('uploadErrorMsg');
+    
+    // バリデーション
+    if (!fileInput.files || fileInput.files.length === 0) {
+        uploadErrorMsg.textContent = 'ファイルを選択してください。';
+        uploadError.style.display = 'block';
+        uploadSuccess.style.display = 'none';
+        return;
+    }
+    
+    // UI更新（処理中）
+    uploadBtn.disabled = true;
+    uploadBtnText.style.display = 'none';
+    uploadSpinner.style.display = 'inline';
+    uploadSuccess.style.display = 'none';
+    uploadError.style.display = 'none';
+    
+    // FormDataを作成
+    const formData = new FormData();
+    formData.append('file', fileInput.files[0]);
+    
+    try {
+        const response = await fetch('/upload', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // 成功メッセージを表示
+            const fileName = fileInput.files[0].name;
+            const textLength = data.extracted_length || 0;
+            uploadSuccessMsg.innerHTML = `
+                <strong>ファイル名:</strong> ${fileName}<br>
+                <strong>抽出されたテキスト:</strong> ${textLength.toLocaleString()}文字<br>
+                <strong>ファイルID:</strong> ${data.file_id}<br>
+                <br>
+                💡 LINEで質問すると、このファイルの内容を参照して回答します！
+            `;
+            uploadSuccess.style.display = 'block';
+            uploadError.style.display = 'none';
+            
+            // フォームをリセット
+            fileInput.value = '';
+            
+            // 3秒後にページをリロードしてファイルリストを更新
+            setTimeout(() => {
+                location.reload();
+            }, 3000);
+        } else {
+            // エラーメッセージを表示
+            uploadErrorMsg.textContent = data.error || 'アップロードに失敗しました。';
+            uploadError.style.display = 'block';
+            uploadSuccess.style.display = 'none';
+        }
+    } catch (error) {
+        console.error('Upload error:', error);
+        uploadErrorMsg.textContent = '通信エラーが発生しました: ' + error.message;
+        uploadError.style.display = 'block';
+        uploadSuccess.style.display = 'none';
+    } finally {
+        // UI更新（完了）
+        uploadBtn.disabled = false;
+        uploadBtnText.style.display = 'inline';
+        uploadSpinner.style.display = 'none';
+    }
+});
+
+// LINE連携処理
 async function startLineLinking() {
     try {
         const response = await fetch('/api/generate_link_code', {

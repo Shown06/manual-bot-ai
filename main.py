@@ -221,8 +221,13 @@ import openai
 openai_client = None
 try:
     if OPENAI_API_KEY:
-        openai_client = openai.OpenAI(api_key=OPENAI_API_KEY)
+        # Explicitly set base_url to default OpenAI API endpoint
+        openai_client = openai.OpenAI(
+            api_key=OPENAI_API_KEY,
+            base_url="https://api.openai.com/v1"
+        )
         logger.info("✅ OpenAI client initialized successfully")
+        logger.info(f"   Base URL: https://api.openai.com/v1")
     else:
         logger.warning("⚠️ OpenAI API key not set - AI features disabled")
 except Exception as e:
@@ -942,7 +947,7 @@ def webhook():
     
     return 'OK', 200
 
-@handler.add(MessageEvent, message=TextMessage)
+# Event handlers - only register if handler is available
 def handle_message(event):
     """Handle LINE text messages."""
     try:
@@ -988,6 +993,7 @@ def handle_message(event):
             return
         
         user_id = line_account['user_id']
+        logger.info(f"DEBUG handle_message: user_id = {user_id}, line_user_id = {line_user_id}")
         
         # Check usage limits
         if not check_usage_limit(user_id, 'messages'):
@@ -1021,6 +1027,7 @@ def handle_message(event):
                 context = "\n".join([result['content'][:500] for result in search_results[:3]])
         
         # Generate AI response with user_id
+        logger.info(f"DEBUG: Calling generate_ai_response with user_id={user_id}, query='{message_text[:50]}...'")
         ai_response = generate_ai_response(message_text, context, detected_language, user_id=user_id)
         logger.info(f"AI response generated for user {user_id}: {ai_response[:100]}...")
         
@@ -1421,6 +1428,8 @@ def handle_admin_list(event):
 def generate_ai_response(query, context="", language="ja", user_id=None):
     """Generate AI response using OpenAI API - STRICTLY RAG SYSTEM."""
     try:
+        logger.info(f"DEBUG generate_ai_response: user_id={user_id}, query='{query[:50]}...'")
+        
         # Get user's uploaded documents first
         manual_content = ""
         has_manual = False
@@ -1439,6 +1448,8 @@ def generate_ai_response(query, context="", language="ja", user_id=None):
 
                 user_files = cursor.fetchall()
                 conn.close()
+                
+                logger.info(f"DEBUG: Found {len(user_files)} files for user {user_id}")
 
                 if user_files:
                     has_manual = True
@@ -1448,6 +1459,11 @@ def generate_ai_response(query, context="", language="ja", user_id=None):
                             # Limit content length to avoid token limits
                             truncated_content = content[:3000] + "..." if len(content) > 3000 else content
                             manual_content += f"\n=== {filename} ===\n{truncated_content}\n"
+                            logger.info(f"DEBUG: Added file '{filename}' with {len(content)} characters")
+                        else:
+                            logger.warning(f"DEBUG: File '{filename}' has empty content")
+                    
+                    logger.info(f"DEBUG: Total manual content length: {len(manual_content)} characters")
 
             except Exception as e:
                 logger.warning(f"Failed to load user documents: {e}")
@@ -1463,57 +1479,64 @@ def generate_ai_response(query, context="", language="ja", user_id=None):
         
         # STRICT RAG SYSTEM PROMPT - Only answer from manual
         system_prompts = {
-            'ja': f"""あなたは厳密なRAGシステムです。以下のマニュアル情報のみを参照して回答してください。
+            'ja': f"""あなたは親切なマニュアルアシスタントです。以下のマニュアル情報を使って、ユーザーの質問に回答してください。
 
 {manual_content}
 
-【重要なルール】
-1. 上記のマニュアル情報に関連する質問には、マニュアルの内容を引用して回答してください
-2. マニュアルに関係ない質問（例: 子育て相談、一般的なアドバイス、マニュアル外の話題）には、必ず以下のように回答してください：
-   「申し訳ございません。その質問はアップロードされたマニュアルの内容とは関係がありません。マニュアルに関するご質問をお願いいたします。」
-3. 一般知識や常識で回答してはいけません
-4. マニュアルに明確に書かれていることだけを答えてください
+【基本ルール】
+✅ マニュアルに関する質問には、上記の内容を使って自然に回答してください
+✅ マニュアルに書かれていることだけを答え、推測や創作は絶対にしないでください
+❌ マニュアルと全く関係ない話題（子育て相談、料理レシピ、天気など）には、「申し訳ございません。その質問はマニュアルの内容とは関係がありません」と答えてください
 
-【判断基準】
-- マニュアル関連の質問: マニュアルの内容、説明、詳細などについての質問
-- マニュアル外の質問: 子育て、人間関係、健康、料理、旅行など、マニュアルと無関係な話題""",
+【重要】
+・マニュアルに書かれていない情報を聞かれたら、正直に「その情報はマニュアルに記載されていません」と答えてください
+・番号で参照された場合（「1番」「2番」など）も、該当するマニュアルの内容を説明してください
+・会話の流れの中での追加質問（「なぜ」「詳しく」など）も、マニュアルの情報を使って答えてください
+
+自然で親切な対応を心がけ、マニュアルの情報だけを正確に提供してください。""",
             
-            'en': f"""You are a STRICT RAG system. Only refer to the following manual information to answer questions.
+            'en': f"""You are a helpful manual assistant. Use the following manual information to answer user questions naturally.
 
 {manual_content}
 
-【IMPORTANT RULES】
-1. For questions related to the manual above, quote and answer from the manual content
-2. For questions unrelated to the manual (e.g., parenting advice, general advice, off-topic questions), ALWAYS respond:
-   "I apologize, but that question is not related to the uploaded manual content. Please ask questions about the manual."
-3. Do NOT use general knowledge or common sense
-4. ONLY answer what is explicitly written in the manual
+【Basic Rules】
+✅ Answer questions about the manual using the information above
+✅ Only provide information that is explicitly in the manual - never guess or make things up
+❌ For completely unrelated topics (personal advice, recipes, weather), respond: "I apologize, but that question is not related to the manual content"
 
-【Judgment Criteria】
-- Manual-related: Questions about the manual content, explanations, details
-- Non-manual: Parenting, relationships, health, cooking, travel, etc.""",
+【Important】
+・If asked about information not in the manual, honestly say: "That information is not in the manual"
+・Answer naturally and be helpful, but only use the manual information provided
+
+Be friendly and accurate, providing only what's in the manual.""",
             
-            'zh': f"""您是严格的RAG系统。仅参考以下手册信息回答问题。
+            'zh': f"""您是一位友善的手册助手。请使用以下手册信息自然地回答用户问题。
 
 {manual_content}
 
-【重要规则】
-1. 对于与上述手册相关的问题，引用手册内容回答
-2. 对于与手册无关的问题（如：育儿咨询、一般建议、无关话题），必须回答：
-   "很抱歉，该问题与上传的手册内容无关。请询问与手册相关的问题。"
-3. 不要使用常识或一般知识
-4. 仅回答手册中明确写明的内容
+【基本规则】
+✅ 使用上述内容回答关于手册的问题
+✅ 只提供手册中明确记载的信息 - 绝不猜测或编造
+❌ 对于完全无关的话题（个人建议、食谱、天气等），回答："抱歉，该问题与手册内容无关"
 
-【判断标准】
-- 手册相关: 关于手册内容、说明、详情的问题
-- 手册无关: 育儿、人际关系、健康、烹饪、旅行等与手册无关的话题"""
+【重要】
+・如果被问及手册中没有的信息，请诚实回答："该信息未在手册中记载"
+・自然友好地回答，但只使用提供的手册信息
+
+请友好且准确地回答，仅提供手册中的内容。"""
         }
         
         system_prompt = system_prompts.get(language, system_prompts['ja'])
         
+        # Debug: Check openai_client
+        logger.info(f"DEBUG: openai_client = {openai_client}")
+        logger.info(f"DEBUG: openai_client type = {type(openai_client)}")
+        if openai_client:
+            logger.info(f"DEBUG: openai_client.api_key = {openai_client.api_key[:20] if openai_client.api_key else 'None'}...")
+        
         # Generate response
         response = openai_client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": query}
@@ -1526,6 +1549,8 @@ def generate_ai_response(query, context="", language="ja", user_id=None):
     
     except Exception as e:
         logger.error(f"OpenAI API error: {e}")
+        import traceback
+        logger.error(f"Full traceback: {traceback.format_exc()}")
         # Fallback response
         fallback_messages = {
             'ja': "申し訳ございません。現在システムに問題が発生しています。しばらく経ってから再度お試しください。",
@@ -1633,10 +1658,22 @@ def upload_file():
         return jsonify({'error': f'ファイルサイズが上限（{max_size // (1024*1024)}MB）を超えています。'}), 400
     
     try:
-        # Save file
-        filename = secure_filename(file.filename)
+        # Get original filename and extension
+        original_filename = file.filename
+        if '.' not in original_filename:
+            return jsonify({'error': 'ファイルに拡張子がありません。'}), 400
+        
+        file_extension = original_filename.rsplit('.', 1)[1].lower()
+        
+        # Save file with secure filename
+        safe_filename = secure_filename(original_filename)
+        
+        # If secure_filename removed the extension, add it back
+        if '.' not in safe_filename:
+            safe_filename = f"file.{file_extension}"
+        
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        unique_filename = f"{timestamp}_{filename}"
+        unique_filename = f"{timestamp}_{safe_filename}"
         
         # Create upload directory if not exists
         upload_dir = app.config['UPLOAD_FOLDER']
@@ -1646,9 +1683,8 @@ def upload_file():
         file_path = os.path.join(upload_dir, unique_filename)
         file.save(file_path)
         
-        # Extract text
-        file_type = filename.rsplit('.', 1)[1].lower()
-        content = extract_text_from_file(file_path, file_type)
+        # Extract text using the original file extension
+        content = extract_text_from_file(file_path, file_extension)
         
         # Save to database
         conn = get_db_connection()
@@ -1656,7 +1692,7 @@ def upload_file():
         cursor.execute('''
             INSERT INTO files (user_id, filename, file_path, file_size, content, tenant_id)
             VALUES (?, ?, ?, ?, ?, NULL)
-        ''', (user_id, filename, file_path, file_size, content))
+        ''', (user_id, original_filename, file_path, file_size, content))
         
         file_id = cursor.lastrowid
         conn.commit()
@@ -1670,7 +1706,7 @@ def upload_file():
             search_engine.add_document(str(file_id), content)
         
         # Log upload
-        log_audit(user_id, 'file_uploaded', f'File: {filename}, Size: {file_size}', request.remote_addr)
+        log_audit(user_id, 'file_uploaded', f'File: {original_filename}, Size: {file_size}', request.remote_addr)
         
         return jsonify({
             'success': True,
@@ -2654,6 +2690,16 @@ except Exception as e:
 def root():
     """Root route for healthcheck."""
     return jsonify({'status': 'ok', 'service': 'Manual Bot AI'}), 200
+
+# Register LINE Bot event handlers if handler is available
+if handler:
+    try:
+        handler.add(MessageEvent, message=TextMessage)(handle_message)
+        logger.info("✅ LINE Bot event handlers registered successfully")
+    except Exception as e:
+        logger.error(f"❌ Failed to register LINE Bot event handlers: {e}")
+else:
+    logger.warning("⚠️ LINE Bot handler not available - event handlers not registered")
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))
