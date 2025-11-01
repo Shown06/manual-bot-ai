@@ -449,6 +449,19 @@ def init_db():
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_conversations_created_at ON conversations(created_at)')
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_usage_tracking_user_month ON usage_tracking(user_id, month)')
     
+    # Create test user if not exists
+    cursor.execute('SELECT id FROM users WHERE email = ?', ('test@example.com',))
+    if not cursor.fetchone():
+        try:
+            password_hash = bcrypt.hashpw('password'.encode('utf-8'), bcrypt.gensalt())
+            cursor.execute('''
+                INSERT INTO users (email, password_hash, plan, subscription_status, is_active)
+                VALUES (?, ?, 'starter', 'active', 1)
+            ''', ('test@example.com', password_hash))
+            logger.info("Test user created: test@example.com / password")
+        except Exception as e:
+            logger.warning(f"Failed to create test user: {e}")
+    
     conn.commit()
     conn.close()
     logger.info("Database initialized successfully")
