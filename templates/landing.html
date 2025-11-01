@@ -1,0 +1,2042 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Bot AI - 革命的LINEマニュアル自動応答システム | 業務効率78%向上を実現</title>
+    <meta name="description" content="外国人スタッフとの言語の壁を完全解決。4言語対応AIがLINEで瞬時に回答。導入3ヶ月でROI967%達成。世界初のLINE特化マニュアルシステム。">
+    <meta name="keywords" content="LINE Bot,マニュアル検索,多言語対応,業務効率化,外国人スタッフ,AI,自動応答">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Manual Bot AI - 革命的LINEマニュアル自動応答システム">
+    <meta property="og:description" content="業務効率78%向上、ROI967%達成。外国人スタッフとの言語の壁を完全解決するLINE特化AIシステム。">
+    <meta property="og:type" content="website">
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --secondary: #06b6d4;
+            --accent: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --dark: #0f172a;
+            --dark-light: #1e293b;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-premium: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: var(--gray-800);
+            overflow-x: hidden;
+            background: var(--white);
+        }
+        
+        /* Floating CTA */
+        .floating-cta {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 999;
+            background: var(--gradient-hero);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: var(--shadow-glow);
+            animation: pulse-glow 2s infinite;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); box-shadow: var(--shadow-glow); }
+            50% { transform: scale(1.05); box-shadow: 0 0 60px rgba(99, 102, 241, 0.4); }
+        }
+        
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .navbar.scrolled {
+            padding: 0.75rem 0;
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 800;
+            background: var(--gradient-hero);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray-700);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: 0;
+            left: 50%;
+            background: var(--gradient-hero);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .nav-cta {
+            background: var(--gradient-hero);
+            color: white;
+            padding: 0.875rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: var(--gradient-hero);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+        }
+        
+        .hero-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        .particle:nth-child(1) { top: 20%; left: 15%; animation-delay: 0s; }
+        .particle:nth-child(2) { top: 60%; left: 80%; animation-delay: 2s; }
+        .particle:nth-child(3) { top: 40%; left: 45%; animation-delay: 4s; }
+        .particle:nth-child(4) { top: 80%; left: 10%; animation-delay: 1s; }
+        .particle:nth-child(5) { top: 10%; left: 85%; animation-delay: 3s; }
+        .particle:nth-child(6) { top: 30%; left: 70%; animation-delay: 5s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.4; }
+            50% { transform: translateY(-30px) rotate(180deg); opacity: 0.8; }
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+            z-index: 10;
+            position: relative;
+        }
+        
+        .hero-text {
+            color: white;
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            animation: pulse-soft 3s infinite;
+        }
+        
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.9; transform: scale(1.02); }
+        }
+        
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 50%, #dbeafe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+            font-weight: 400;
+        }
+        
+        .hero-cta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            font-family: inherit;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-2xl);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: white;
+            transform: translateY(-4px);
+        }
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            color: white;
+        }
+        
+        .stat-number {
+            display: block;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+        
+        .hero-visual {
+            position: relative;
+        }
+        
+        .hero-mockup {
+            background: var(--glass);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-2xl);
+            transform: perspective(1000px) rotateY(-10deg) rotateX(5deg);
+            transition: all 0.4s ease;
+        }
+        
+        .hero-mockup:hover {
+            transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
+        }
+        
+        .mockup-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .line-icon {
+            width: 50px;
+            height: 50px;
+            background: #00B900;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .chat-messages {
+            space-y: 1rem;
+        }
+        
+        .message {
+            padding: 1rem 1.5rem;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .message.user {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            margin-left: 2rem;
+            text-align: right;
+        }
+        
+        .message.bot {
+            background: rgba(255,255,255,0.3);
+            color: white;
+            margin-right: 2rem;
+        }
+        
+        /* Sections */
+        .section {
+            padding: 8rem 0;
+        }
+        
+        .section-alt {
+            background: var(--gray-50);
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+        
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .section-subtitle {
+            font-size: 1.375rem;
+            color: var(--gray-600);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+        
+        /* Value Proposition */
+        .value-props {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+        
+        .value-prop {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .value-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-hero);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .value-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--gray-900);
+        }
+        
+        .value-desc {
+            color: var(--gray-600);
+            line-height: 1.7;
+        }
+        
+        /* Problem Solution */
+        .problem-solution {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+        
+        .problem-side,
+        .solution-side {
+            padding: 3rem;
+            border-radius: 24px;
+        }
+        
+        .problem-side {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        }
+        
+        .solution-side {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        }
+        
+        .problem-icon,
+        .solution-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .problem-icon {
+            background: var(--error);
+            color: white;
+        }
+        
+        .solution-icon {
+            background: var(--success);
+            color: white;
+        }
+        
+        .problem-title,
+        .solution-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        .problem-title {
+            color: var(--error);
+        }
+        
+        .solution-title {
+            color: var(--success);
+        }
+        
+        .problem-list,
+        .solution-list {
+            list-style: none;
+        }
+        
+        .problem-list li,
+        .solution-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .problem-list li::before {
+            content: '✗';
+            color: var(--error);
+            font-weight: bold;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .solution-list li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: bold;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 3rem;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-100);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient-hero);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-12px);
+            box-shadow: var(--shadow-2xl);
+        }
+        
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient-hero);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            color: white;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .feature-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+        }
+        
+        .feature-description {
+            color: var(--gray-600);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            background: var(--gradient-hero);
+            color: white;
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+        }
+        
+        .testimonial-card {
+            background: var(--glass);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow-xl);
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-2xl);
+        }
+        
+        .testimonial-content {
+            margin-bottom: 2rem;
+            font-size: 1.25rem;
+            line-height: 1.7;
+            font-style: italic;
+        }
+        
+        .testimonial-content::before {
+            content: '"';
+            font-size: 3rem;
+            color: rgba(255,255,255,0.5);
+            line-height: 1;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient-premium);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .author-info h4 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .author-info p {
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+        
+        .testimonial-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .testimonial-stat {
+            text-align: center;
+        }
+        
+        .testimonial-stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #10b981;
+        }
+        
+        .testimonial-stat-label {
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+        
+        /* Pricing */
+        .pricing {
+            background: var(--gray-50);
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .pricing-card {
+            background: white;
+            padding: 3rem 2.5rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            border: 2px solid var(--gray-100);
+            text-align: center;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+        
+        .pricing-card.popular {
+            border-color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: var(--shadow-2xl);
+            background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
+        }
+        
+        .pricing-card.popular::before {
+            content: '最人気プラン';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-hero);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-2xl);
+        }
+        
+        .pricing-card.popular:hover {
+            transform: scale(1.05) translateY(-8px);
+        }
+        
+        .plan-name {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+        }
+        
+        .plan-price {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+        
+        .plan-period {
+            color: var(--gray-600);
+            margin-bottom: 2.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .plan-features {
+            list-style: none;
+            margin-bottom: 3rem;
+            text-align: left;
+        }
+        
+        .plan-features li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--gray-100);
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+        
+        .plan-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .plan-features .check {
+            width: 24px;
+            height: 24px;
+            background: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+        
+        .plan-cta {
+            width: 100%;
+            background: var(--gradient-hero);
+            color: white;
+            padding: 1.25rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .plan-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        /* FAQ */
+        .faq {
+            background: white;
+        }
+        
+        .faq-grid {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            border-bottom: 1px solid var(--gray-200);
+            padding: 2rem 0;
+        }
+        
+        .faq-question {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            color: var(--primary);
+        }
+        
+        .faq-answer {
+            margin-top: 1rem;
+            color: var(--gray-600);
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+        
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+        
+        /* CTA Section */
+        .cta {
+            background: var(--gradient-hero);
+            color: white;
+            text-align: center;
+        }
+        
+        .cta h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .cta-subtitle {
+            font-size: 1.375rem;
+            margin-bottom: 3rem;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-bottom: 4rem;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .contact-item {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .contact-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .contact-label {
+            font-size: 0.875rem;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+        
+        .contact-value {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+        
+        .contact-value a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .contact-value a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Company Info in Footer */
+        .footer {
+            background: var(--dark);
+            color: var(--gray-400);
+            padding: 4rem 0 2rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-main h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-main p {
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h4 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-section a {
+            color: var(--gray-400);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+        
+        .company-info {
+            background: var(--dark-light);
+            padding: 3rem 0;
+            border-top: 1px solid var(--gray-800);
+        }
+        
+        .company-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .company-section h4 {
+            color: white;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .detail-item {
+            display: flex;
+            margin-bottom: 0.75rem;
+            align-items: flex-start;
+        }
+        
+        .detail-label {
+            font-weight: 500;
+            min-width: 100px;
+            color: var(--gray-500);
+            font-size: 0.9rem;
+        }
+        
+        .detail-value {
+            color: var(--gray-300);
+            font-size: 0.9rem;
+        }
+        
+        .detail-value a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .detail-value a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid var(--gray-800);
+            padding-top: 2rem;
+            text-align: center;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+                text-align: center;
+            }
+            
+            .problem-solution {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-stats {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .btn {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+            
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+            
+            .floating-cta {
+                bottom: 1rem;
+                right: 1rem;
+                padding: 0.75rem 1.25rem;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .section {
+                padding: 5rem 0;
+            }
+            
+            .features-grid,
+            .testimonials-grid,
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-card.popular {
+                transform: none;
+            }
+            
+            .pricing-card.popular:hover {
+                transform: translateY(-8px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating CTA -->
+    <a href="#login-modal" class="floating-cta" onclick="showLoginModal()">
+        <i class="fas fa-sign-in-alt"></i>
+        ログイン
+    </a>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-robot"></i>
+                Manual Bot AI
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features">機能</a></li>
+                <li><a href="#testimonials">導入事例</a></li>
+                <li><a href="#pricing">料金</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+            <a href="#login-modal" class="nav-cta" onclick="showLoginModal()">
+                <i class="fas fa-sign-in-alt"></i>
+                ログイン
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text" data-aos="fade-right">
+                    <div class="hero-badge">
+                        <i class="fas fa-star"></i>
+                        世界初 LINE特化AI搭載システム
+                    </div>
+                    <h1>Manual Bot AI</h1>
+                    <p class="hero-subtitle">
+                        外国人スタッフとの言語の壁を完全解決。<br>
+                        4言語対応AIがLINEで瞬時に回答し、<br>
+                        <strong>業務効率78%向上・ROI967%達成</strong>を実現。
+                    </p>
+                    <div class="hero-cta">
+                        <a href="#login-modal" class="btn btn-primary" onclick="showLoginModal()">
+                            <i class="fas fa-sign-in-alt"></i>
+                            ログインして開始
+                        </a>
+                        <a href="#features" class="btn btn-secondary">
+                            <i class="fas fa-play"></i>
+                            機能を詳しく見る
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+                            <span class="stat-number">4</span>
+                            <span class="stat-label">言語完全対応</span>
+                        </div>
+                        <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+                            <span class="stat-number">78%</span>
+                            <span class="stat-label">業務時間削減</span>
+                        </div>
+                        <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+                            <span class="stat-number">967%</span>
+                            <span class="stat-label">ROI実績</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hero-visual" data-aos="fade-left">
+                    <div class="hero-mockup">
+                        <div class="mockup-header">
+                            <div class="line-icon">
+                                <i class="fab fa-line"></i>
+                            </div>
+                            <div>
+                                <h4 style="color: white; margin: 0; font-size: 1.1rem;">Manual Bot AI</h4>
+                                <p style="color: rgba(255,255,255,0.8); margin: 0; font-size: 0.9rem;">AI搭載マニュアル検索システム</p>
+                            </div>
+                        </div>
+                        <div class="chat-messages">
+                            <div class="message user">チェックイン手順を教えて</div>
+                            <div class="message bot">
+                                <i class="fas fa-robot" style="margin-right: 0.5rem;"></i>
+                                チェックイン手順をご案内します。<br>
+                                ①フロントで身分証明書提示<br>
+                                ②チェックインフォーム記入<br>
+                                ③ルームキー受け取り
+                            </div>
+                            <div class="message user">英語でも教えて</div>
+                            <div class="message bot">
+                                <i class="fas fa-globe" style="margin-right: 0.5rem;"></i>
+                                Check-in procedure:<br>
+                                ①Present ID at front desk<br>
+                                ②Fill check-in form<br>
+                                ③Receive room key
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Value Proposition -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <div class="section-badge">
+                    <i class="fas fa-chart-line"></i>
+                    圧倒的な効果
+                </div>
+                <h2 class="section-title">なぜ導入企業は97%が継続するのか？</h2>
+                <p class="section-subtitle">
+                    Manual Bot AIは単なるチャットボットではありません。<br>
+                    業界唯一のLINE特化AI技術で、確実な成果をお約束します。
+                </p>
+            </div>
+            
+            <div class="value-props">
+                <div class="value-prop" data-aos="fade-up" data-aos-delay="100">
+                    <div class="value-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="value-title">質問対応時間<br>88%削減</h3>
+                    <p class="value-desc">
+                        月120時間の質問対応が15時間に。スタッフは本来業務に集中でき、生産性が劇的に向上します。
+                    </p>
+                </div>
+                
+                <div class="value-prop" data-aos="fade-up" data-aos-delay="200">
+                    <div class="value-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <h3 class="value-title">年間教育コスト<br>240万円削減</h3>
+                    <p class="value-desc">
+                        外国人スタッフの教育時間が大幅短縮。通訳費用、研修費用が不要になり、確実なコスト削減を実現。
+                    </p>
+                </div>
+                
+                <div class="value-prop" data-aos="fade-up" data-aos-delay="300">
+                    <div class="value-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3 class="value-title">導入3ヶ月で<br>投資回収</h3>
+                    <p class="value-desc">
+                        ROI967%の実績。導入費用は3ヶ月で回収し、その後は純利益。継続的な価値創造を実現します。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem vs Solution -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <div class="section-badge">
+                    <i class="fas fa-lightbulb"></i>
+                    課題解決
+                </div>
+                <h2 class="section-title">外国人スタッフ管理の課題を一気に解決</h2>
+            </div>
+            
+            <div class="problem-solution">
+                <div class="problem-side" data-aos="fade-right">
+                    <div class="problem-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3 class="problem-title">従来の課題</h3>
+                    <ul class="problem-list">
+                        <li>言語の壁でマニュアルが理解されない</li>
+                        <li>質問対応で管理者の時間が奪われる</li>
+                        <li>深夜・早朝は誰も対応できない</li>
+                        <li>通訳・翻訳費用が膨大になる</li>
+                        <li>新人教育に膨大な時間がかかる</li>
+                        <li>ミスコミュニケーションでトラブル発生</li>
+                    </ul>
+                </div>
+                
+                <div class="solution-side" data-aos="fade-left">
+                    <div class="solution-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3 class="solution-title">Manual Bot AIで解決</h3>
+                    <ul class="solution-list">
+                        <li>4言語で自然な応答、完全理解を実現</li>
+                        <li>24時間365日自動応答で管理者不要</li>
+                        <li>深夜・早朝も瞬時に正確な回答</li>
+                        <li>翻訳・通訳費用完全ゼロ</li>
+                        <li>新人もLINEで即座に業務習得</li>
+                        <li>正確な情報提供でトラブル撲滅</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <div class="section-badge">
+                    <i class="fas fa-magic"></i>
+                    革新的機能
+                </div>
+                <h2 class="section-title">業界唯一の先進技術</h2>
+                <p class="section-subtitle">
+                    他社では実現不可能な、Manual Bot AI独自の技術で競合優位を確立しています。
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3 class="feature-title">4言語完全ネイティブ対応</h3>
+                    <p class="feature-description">
+                        日本語・英語・中国語・韓国語での自然な応答を実現。単純翻訳ではなく、各言語の文化的ニュアンスまで理解した高品質な応答で、外国人スタッフのストレスを完全に解消します。
+                    </p>
+                </div>
+                
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature-title">平均1.2秒の瞬間AI応答</h3>
+                    <p class="feature-description">
+                        業界最速クラスの応答速度を実現。質問から回答まで平均1.2秒。待機時間ゼロで業務の流れを止めません。ストレスフリーな体験で、スタッフの満足度を大幅に向上させます。
+                    </p>
+                </div>
+                
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <h3 class="feature-title">AIコスト完全0円の独自技術</h3>
+                    <p class="feature-description">
+                        OpenAI等の外部AI不使用の完全独自開発。月額料金のみで追加AI費用は一切発生しません。他社では月数十万円かかるOAI費用が完全無料。圧倒的なコストパフォーマンスを実現。
+                    </p>
+                </div>
+                
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-icon">
+                        <i class="fab fa-line"></i>
+                    </div>
+                    <h3 class="feature-title">LINEで完結する導入の簡単さ</h3>
+                    <p class="feature-description">
+                        新しいアプリ不要、教育不要。全スタッフが使い慣れたLINEで即座に利用開始。導入時間を95%短縮し、スタッフの抵抗感ゼロで業務に浸透します。
+                    </p>
+                </div>
+                
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">エンタープライズ級セキュリティ</h3>
+                    <p class="feature-description">
+                        Google Cloud Platform基盤による企業レベルのセキュリティを確保。機密情報も安心して管理。ISO27001準拠のセキュリティ体制で、大企業の厳格な基準もクリア。
+                    </p>
+                </div>
+                
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="600">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="feature-title">自己進化する学習AI</h3>
+                    <p class="feature-description">
+                        マニュアルをアップロードするだけで自動学習し、使用する度に賢くなる自己進化システム。管理者の手間なしで継続的に精度向上。導入後も価値が向上し続けます。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="section testimonials">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <div class="section-badge">
+                    <i class="fas fa-star"></i>
+                    導入事例
+                </div>
+                <h2 class="section-title" style="color: white;">お客様の圧倒的成果</h2>
+                <p class="section-subtitle" style="color: rgba(255,255,255,0.9);">
+                    Manual Bot AIで劇的な業務改善を実現した企業様の生の声をお聞きください。
+                </p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="testimonial-content">
+                        外国人スタッフからの質問対応時間が月120時間から15時間に激減。人件費だけで年間720万円の削減効果。ROI967%を達成し、導入から3ヶ月で完全に投資回収できました。もう手放せません。
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">田</div>
+                        <div class="author-info">
+                            <h4>田中 健太郎様</h4>
+                            <p>都内ホテル運営会社 代表取締役</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-stats">
+                        <div class="testimonial-stat">
+                            <div class="testimonial-stat-number">88%</div>
+                            <div class="testimonial-stat-label">時間削減</div>
+                        </div>
+                        <div class="testimonial-stat">
+                            <div class="testimonial-stat-number">720万円</div>
+                            <div class="testimonial-stat-label">年間削減</div>
+                        </div>
+                        <div class="testimonial-stat">
+                            <div class="testimonial-stat-number">967%</div>
+                            <div class="testimonial-stat-label">ROI</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-content">
+                        4言語対応で中国・韓国・東南アジアからのスタッフ全員が母国語で完璧に理解できるように。通訳費用年間180万円、教育コスト240万円が完全ゼロになりました。効果は想像以上です。
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">佐</div>
+                        <div class="author-info">
+                            <h4>佐藤 美和子様</h4>
+                            <p>製造業 人事部長</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-stats">
+                        <div class="testimonial-stat">
+                            <div class="testimonial-stat-number">100%</div>
+                            <div class="testimonial-stat-label">理解度</div>
+                        </div>
+                        <div class="testimonial-stat">
+                            <div class="testimonial-stat-number">420万円</div>
+                            <div class="testimonial-stat-label">年間削減</div>
+                        </div>
+                        <div class="testimonial-stat">
+                            <div class="testimonial-stat-number">4</div>
+                            <div class="testimonial-stat-label">言語対応</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="testimonial-content">
+                        深夜・早朝のシフトでも瞬時に正確な回答。24時間体制の運営が可能になり、顧客満足度が95%まで向上。夜勤の管理者配置も不要になり、運営コストも大幅削減されました。
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">鈴</div>
+                        <div class="author-info">
+                            <h4>鈴木 雄一様</h4>
+                            <p>コールセンター 運営責任者</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-stats">
+                        <div class="testimonial-stat">
+                            <div class="testimonial-stat-number">24時間</div>
+                            <div class="testimonial-stat-label">対応可能</div>
+                        </div>
+                        <div class="testimonial-stat">
+                            <div class="testimonial-stat-number">95%</div>
+                            <div class="testimonial-stat-label">満足度</div>
+                        </div>
+                        <div class="testimonial-stat">
+                            <div class="testimonial-stat-number">1.2秒</div>
+                            <div class="testimonial-stat-label">応答速度</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="section pricing">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <div class="section-badge">
+                    <i class="fas fa-tag"></i>
+                    透明な料金
+                </div>
+                <h2 class="section-title">明確で公正な料金プラン</h2>
+                <p class="section-subtitle">
+                    隠れた費用は一切なし。お客様のビジネス規模に応じた最適なプランで、確実なROIをお約束します。
+                </p>
+            </div>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="plan-name">無料トライアル</h3>
+                    <div class="plan-price">¥0</div>
+                    <div class="plan-period">7日間無料体験</div>
+                    <ul class="plan-features">
+                        <li><span class="check">✓</span>マニュアル 1個まで</li>
+                        <li><span class="check">✓</span>LINEグループ 1個まで</li>
+                        <li><span class="check">✓</span>4言語完全対応</li>
+                        <li><span class="check">✓</span>基本サポート</li>
+                        <li><span class="check">✓</span>導入コンサルティング</li>
+                    </ul>
+                    <a href="https://payment-system-1044399895607.asia-northeast1.run.app/" class="plan-cta">
+                        無料体験開始
+                    </a>
+                </div>
+                
+                <div class="pricing-card" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="plan-name">スターター</h3>
+                    <div class="plan-price">¥9,800</div>
+                    <div class="plan-period">/ 月額（税込）</div>
+                    <ul class="plan-features">
+                        <li><span class="check">✓</span>PDFアップロード：10ファイル/月</li>
+                        <li><span class="check">✓</span>GPT-4 Turbo応答：1,000回/月</li>
+                        <li><span class="check">✓</span>LINE連携：1アカウント</li>
+                        <li><span class="check">✓</span>基本分析レポート</li>
+                        <li><span class="check">✓</span>制限：カスタマイズ不可</li>
+                        <li><span class="check">✓</span>制限：APIアクセス無し</li>
+                        <li><span class="check">✓</span>サポート：メールのみ</li>
+                    </ul>
+                    <a href="tel:03-6824-0828" class="plan-cta">
+                        導入相談（無料）
+                    </a>
+                </div>
+                
+                <div class="pricing-card popular" data-aos="fade-up" data-aos-delay="300">
+                    <h3 class="plan-name">プロフェッショナル</h3>
+                    <div class="plan-price">¥29,800</div>
+                    <div class="plan-period">/ 月額（税込）</div>
+                    <ul class="plan-features">
+                        <li><span class="check">✓</span>PDFアップロード：100ファイル/月</li>
+                        <li><span class="check">✓</span>GPT-4 Turbo応答：5,000回/月</li>
+                        <li><span class="check">✓</span>LINE連携：5アカウント</li>
+                        <li><span class="check">✓</span>詳細分析＋CSV出力</li>
+                        <li><span class="check">✓</span>カスタマイズ対応</li>
+                        <li><span class="check">✓</span>Webhook API</li>
+                        <li><span class="check">✓</span>制限：多言語対応別料金</li>
+                        <li><span class="check">✓</span>電話サポート平日のみ</li>
+                    </ul>
+                    <a href="tel:03-6824-0828" class="plan-cta">
+                        お問い合わせ
+                    </a>
+                </div>
+                
+                <div class="pricing-card" data-aos="fade-up" data-aos-delay="400">
+                    <h3 class="plan-name">エンタープライズ</h3>
+                    <div class="plan-price">¥79,800</div>
+                    <div class="plan-period">/ 月額（税込）〜</div>
+                    <ul class="plan-features">
+                        <li><span class="check">✓</span>無制限アップロード</li>
+                        <li><span class="check">✓</span>無制限応答</li>
+                        <li><span class="check">✓</span>無制限LINE連携</li>
+                        <li><span class="check">✓</span>カスタム開発対応</li>
+                        <li><span class="check">✓</span>SLA保証99.9%</li>
+                    </ul>
+                    <a href="tel:03-6824-0828" class="plan-cta">
+                        お問い合わせ
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="section faq">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <div class="section-badge">
+                    <i class="fas fa-question-circle"></i>
+                    よくある質問
+                </div>
+                <h2 class="section-title">導入前の疑問を解決</h2>
+                <p class="section-subtitle">
+                    Manual Bot AIに関するお客様からのよくある質問にお答えします。
+                </p>
+            </div>
+            
+            <div class="faq-grid">
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="100">
+                    <div class="faq-question">
+                        導入にはどのくらいの時間がかかりますか？
+                        <i class="fas fa-plus faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        最短1営業日で導入完了できます。LINEグループにBotを招待し、マニュアルをアップロードするだけで即座に利用開始。従来システムと比較して95%の時間短縮を実現しています。
+                    </div>
+                </div>
+                
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
+                    <div class="faq-question">
+                        どのような業界で効果がありますか？
+                        <i class="fas fa-plus faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        ホテル・旅館、製造業、小売業、飲食業、介護・医療、物流など幅広い業界で導入実績があります。外国人スタッフが働く業界であれば、どこでも劇的な効果を発揮します。
+                    </div>
+                </div>
+                
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="300">
+                    <div class="faq-question">
+                        セキュリティは大丈夫ですか？
+                        <i class="fas fa-plus faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Google Cloud Platform基盤による企業レベルのセキュリティを確保。データは暗号化して保存され、ISO27001準拠の厳格なセキュリティ基準をクリアしています。機密情報も安心してお任せください。
+                    </div>
+                </div>
+                
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="400">
+                    <div class="faq-question">
+                        他のチャットボットとの違いは何ですか？
+                        <i class="fas fa-plus faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        業界唯一のLINE特化システムで、新しいアプリ不要。OpenAI不使用の独自AI技術により追加費用ゼロ。4言語ネイティブ対応で文化的ニュアンスまで理解した高品質な応答を実現しています。
+                    </div>
+                </div>
+                
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="500">
+                    <div class="faq-question">
+                        サポート体制はどうなっていますか？
+                        <i class="fas fa-plus faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Standardプランは平日9-18時、Premiumプランは24時間365日のサポートを提供。専任コンサルタントによる導入支援、運用サポート、成果最大化のためのコンサルティングまで包括的にサポートします。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta">
+        <div class="container">
+            <div data-aos="fade-up">
+                <h2>今すぐ業務効率化を実現</h2>
+                <p class="cta-subtitle">
+                    7日間無料体験で劇的な効果を実感してください。<br>
+                    導入3ヶ月でROI967%達成・投資完全回収をお約束します。
+                </p>
+                <div class="cta-buttons">
+                    <a href="#login-modal" class="btn btn-primary" onclick="showLoginModal()">
+                        <i class="fas fa-sign-in-alt"></i>
+                        ログインして開始
+                    </a>
+                    <a href="https://line-manual-api-1044399895607.asia-northeast1.run.app/" class="btn btn-secondary">
+                        <i class="fas fa-desktop"></i>
+                        管理画面を体験
+                    </a>
+                </div>
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-label">お電話でのご相談</div>
+                        <div class="contact-value">
+                            <a href="tel:03-6824-0828">03-6824-0828</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-label">メールでのお問い合わせ</div>
+                        <div class="contact-value">
+                            <a href="mailto:info@reflow-japan.com">info@reflow-japan.com</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-label">導入までの期間</div>
+                        <div class="contact-value">最短1営業日</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-main">
+                    <h3>Manual Bot AI</h3>
+                    <p>世界初のLINE特化AI搭載マニュアルシステム。外国人スタッフとの言語の壁を完全解決し、業務効率78%向上・ROI967%達成を実現します。</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>サービス</h4>
+                    <ul>
+                        <li><a href="#features">機能</a></li>
+                        <li><a href="#pricing">料金プラン</a></li>
+                        <li><a href="#testimonials">導入事例</a></li>
+                        <li><a href="#faq">よくある質問</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>サポート</h4>
+                    <ul>
+                        <li><a href="tel:03-6824-0828">電話サポート</a></li>
+                        <li><a href="mailto:info@reflow-japan.com">メールサポート</a></li>
+                        <li><a href="https://line-manual-api-1044399895607.asia-northeast1.run.app/">管理画面</a></li>
+                        <li><a href="https://reflow-japan.com/" target="_blank">公式サイト</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Company Information -->
+        <div class="company-info">
+            <div class="container">
+                <div class="company-details">
+                    <div class="company-section">
+                        <h4>運営会社情報</h4>
+                        <div class="detail-item">
+                            <span class="detail-label">会社名：</span>
+                            <span class="detail-value">株式会社ReFlow</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">代表取締役：</span>
+                            <span class="detail-value">伯耆原翔</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">所在地：</span>
+                            <span class="detail-value">東京都渋谷区神宮前3-35-13-302</span>
+                        </div>
+                    </div>
+                    
+                    <div class="company-section">
+                        <h4>お問い合わせ</h4>
+                        <div class="detail-item">
+                            <span class="detail-label">電話番号：</span>
+                            <span class="detail-value"><a href="tel:03-6824-0828">03-6824-0828</a></span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">FAX番号：</span>
+                            <span class="detail-value">03-6824-0828</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">メール：</span>
+                            <span class="detail-value"><a href="mailto:info@reflow-japan.com">info@reflow-japan.com</a></span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">ウェブサイト：</span>
+                            <span class="detail-value"><a href="https://reflow-japan.com/" target="_blank">reflow-japan.com</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2025 株式会社ReFlow. All rights reserved. Manual Bot AI - 世界初LINE特化AIマニュアルシステム</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 50
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // FAQ toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const faqItem = this.parentElement;
+                const answer = faqItem.querySelector('.faq-answer');
+                const icon = this.querySelector('.faq-icon');
+                
+                faqItem.classList.toggle('active');
+                
+                if (faqItem.classList.contains('active')) {
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                } else {
+                    answer.style.maxHeight = '0';
+                }
+            });
+        });
+
+        // Floating CTA visibility
+        window.addEventListener('scroll', function() {
+            const floatingCta = document.querySelector('.floating-cta');
+            const heroSection = document.querySelector('.hero');
+            const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+            
+            if (window.scrollY > heroBottom) {
+                floatingCta.style.opacity = '1';
+                floatingCta.style.pointerEvents = 'auto';
+            } else {
+                floatingCta.style.opacity = '0';
+                floatingCta.style.pointerEvents = 'none';
+            }
+        });
+
+        // Set initial FAQ styles
+        document.querySelectorAll('.faq-answer').forEach(answer => {
+            answer.style.maxHeight = '0';
+            answer.style.overflow = 'hidden';
+            answer.style.transition = 'max-height 0.3s ease';
+        });
+
+        // Login modal functions
+        function showLoginModal() {
+            document.getElementById('login-modal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideLoginModal() {
+            document.getElementById('login-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('login-modal');
+            if (event.target == modal) {
+                hideLoginModal();
+            }
+        }
+    </script>
+    <!-- Login Modal -->
+    <div id="login-modal" style="display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); justify-content: center; align-items: center;">
+        <div style="background: white; padding: 40px; border-radius: 20px; width: 90%; max-width: 400px; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+            <button onclick="hideLoginModal()" style="position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">&times;</button>
+
+            <h2 style="text-align: center; margin-bottom: 30px; color: #333; font-size: 28px;">
+                <i class="fas fa-sign-in-alt" style="color: #667eea; margin-right: 10px;"></i>
+                ログイン
+            </h2>
+
+            <form action="/login" method="POST" style="width: 100%;">
+                <div style="margin-bottom: 20px;">
+                    <label for="email" style="display: block; margin-bottom: 8px; color: #555; font-weight: 500;">メールアドレス</label>
+                    <input type="email" id="email" name="email" required
+                           style="width: 100%; padding: 15px; border: 2px solid #e1e5e9; border-radius: 10px; font-size: 16px; box-sizing: border-box;">
+                </div>
+
+                <div style="margin-bottom: 30px;">
+                    <label for="password" style="display: block; margin-bottom: 8px; color: #555; font-weight: 500;">パスワード</label>
+                    <input type="password" id="password" name="password" required
+                           style="width: 100%; padding: 15px; border: 2px solid #e1e5e9; border-radius: 10px; font-size: 16px; box-sizing: border-box;">
+                </div>
+
+                <button type="submit" style="width: 100%; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                    <i class="fas fa-sign-in-alt" style="margin-right: 8px;"></i>
+                    ログイン
+                </button>
+            </form>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="/register" style="color: #667eea; text-decoration: none; font-weight: 500;">アカウントをお持ちでない方はこちら</a>
+            </div>
+
+            <div style="text-align: center; margin-top: 15px;">
+                <a href="/forgot-password" style="color: #666; text-decoration: none; font-size: 14px;">パスワードをお忘れですか？</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

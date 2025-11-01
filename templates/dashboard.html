@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block title %}ダッシュボード - Manual Bot AI{% endblock %}
+{% block content %}
+<div class="header">
+    <h1>ダッシュボード</h1>
+    <p>{{ user.email }} | プラン: {{ user.plan | upper }}</p>
+    <div class="nav">
+        <a href="/dashboard">ホーム</a>
+        <a href="/pricing">料金プラン</a>
+        <a href="/logout">ログアウト</a>
+    </div>
+</div>
+
+<div class="card">
+    <h2>ファイルアップロード</h2>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <input type="file" name="file" accept=".pdf,.docx,.txt" required>
+        </div>
+        <button type="submit" class="btn">アップロード</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>アップロード済みファイル</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ファイル名</th>
+                <th>アップロード日時</th>
+                <th>サイズ</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for file in files %}
+            <tr>
+                <td>{{ file.filename }}</td>
+                <td>{{ file.uploaded_at }}</td>
+                <td>{{ file.file_size }} bytes</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3">ファイルがありません</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card">
+    <h2>今月の使用状況</h2>
+    {% if usage %}
+    <p>ファイルアップロード: {{ usage.files_uploaded }}回</p>
+    <p>API呼び出し: {{ usage.api_calls_made }}回</p>
+    <p>メッセージ送信: {{ usage.messages_sent }}回</p>
+    {% else %}
+    <p>まだ使用していません</p>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h2>🤖 LINE Bot 自動連携</h2>
+    
+    {% if line_accounts %}
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 12px; text-align: center;">
+        <h3 style="margin: 0 0 10px 0;">✅ 連携済み</h3>
+        <p style="margin: 0; opacity: 0.9;">LINEでいつでも質問できます！</p>
+    </div>
+    {% else %}
+    <div style="background: #f8fafc; padding: 30px; border-radius: 12px; text-align: center;">
+        <h3 style="color: #1a202c; margin-bottom: 20px;">ワンクリックで連携開始</h3>
+        
+        <div id="linkingStatus" style="margin: 20px 0;">
+            <button onclick="startLineLinking()" class="btn" style="font-size: 18px; padding: 15px 40px;">
+                LINE Botと連携する 🚀
+            </button>
+        </div>
+        
+        <div id="linkCodeDisplay" style="display: none; margin-top: 30px;">
+            <p style="color: #4a5568; margin-bottom: 15px; font-size: 16px;">
+                ① 下のボタンをクリックしてLINE Botを友だち追加
+            </p>
+            <a id="lineAddFriendUrl" href="#" target="_blank" class="btn" style="background: #06c755; display: inline-block; text-decoration: none; margin-bottom: 20px;">
+                📱 LINE Bot 友だち追加
+            </a>
+            
+            <p style="color: #4a5568; margin: 20px 0; font-size: 16px;">
+                ② 友だち追加後、以下の連携コードをLINEで送信
+            </p>
+            <div style="background: white; padding: 20px; border-radius: 8px; border: 2px solid #667eea; margin: 20px 0;">
+                <div style="font-size: 48px; font-weight: bold; color: #667eea; letter-spacing: 12px;" id="linkCode">----</div>
+            </div>
+            <p style="color: #718096; font-size: 14px;">有効期限: 10分間</p>
+            
+            <div style="margin-top: 20px; padding: 15px; background: #edf2f7; border-radius: 8px;">
+                <p style="color: #2d3748; margin: 0; font-size: 14px;">
+                    💡 ヒント: LINEのトーク画面で「<span id="linkCodeCopy" style="font-weight: bold;">----</span>」と送信してください
+                </p>
+            </div>
+        </div>
+        
+        <div style="margin-top: 30px; padding: 20px; background: #fff5f5; border-left: 4px solid #fc8181; border-radius: 4px; text-align: left;">
+            <h4 style="margin: 0 0 10px 0; color: #c53030;">⚡️ 自動連携の仕組み</h4>
+            <ul style="margin: 0; padding-left: 20px; color: #742a2a;">
+                <li>連携コードは自動生成されます</li>
+                <li>LINEで番号を送信するだけで連携完了</li>
+                <li>すぐにAIチャットが使えます</li>
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+async function startLineLinking() {
+    try {
+        const response = await fetch('/api/generate_link_code', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // 連携コードを表示
+            document.getElementById('linkCode').textContent = data.code;
+            document.getElementById('linkCodeCopy').textContent = data.code;
+            
+            // LINE Bot友だち追加URLを設定
+            const lineAddUrl = 'https://line.me/R/ti/p/@415fibwz';
+            document.getElementById('lineAddFriendUrl').href = lineAddUrl;
+            
+            // 表示切り替え
+            document.getElementById('linkingStatus').style.display = 'none';
+            document.getElementById('linkCodeDisplay').style.display = 'block';
+            
+            // 自動リフレッシュ（連携完了をチェック）
+            checkLinkingStatus(data.code);
+        } else {
+            alert('エラー: ' + (data.error || 'コード生成に失敗しました'));
+        }
+    } catch (error) {
+        console.error('Link code error:', error);
+        alert('通信エラーが発生しました');
+    }
+}
+
+function checkLinkingStatus(code) {
+    // 5秒ごとに連携状態をチェック
+    const intervalId = setInterval(async () => {
+        try {
+            const response = await fetch('/api/check_linking_status');
+            const data = await response.json();
+            
+            if (data.linked) {
+                clearInterval(intervalId);
+                // 連携完了を表示
+                document.getElementById('linkCodeDisplay').innerHTML = `
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px; border-radius: 12px;">
+                        <h3 style="margin: 0 0 15px 0; font-size: 24px;">✅ 連携完了！</h3>
+                        <p style="margin: 0; font-size: 16px; opacity: 0.9;">LINEでマニュアルBotに質問できます</p>
+                    </div>
+                `;
+                // 3秒後にリロード
+                setTimeout(() => location.reload(), 3000);
+            }
+        } catch (error) {
+            console.error('Status check error:', error);
+        }
+    }, 5000);
+    
+    // 10分後に自動停止
+    setTimeout(() => clearInterval(intervalId), 600000);
+}
+</script>
+{% endblock %}

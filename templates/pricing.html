@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}料金プラン - Manual Bot AI{% endblock %}
+{% block content %}
+<div class="header">
+    <h1>料金プラン</h1>
+    <p>あなたのビジネスに最適なプランをお選びください</p>
+    {% if session.user_id %}
+    <div class="nav">
+        <a href="/dashboard">ダッシュボード</a>
+        <a href="/logout">ログアウト</a>
+    </div>
+    {% endif %}
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+    {% for plan in plans %}
+    <div class="card" style="text-align: center;">
+        <h2>{{ plan.name }}</h2>
+        <div style="font-size: 36px; font-weight: bold; color: #667eea; margin: 20px 0;">
+            {{ plan.price }}
+            <span style="font-size: 16px; color: #666;">/月</span>
+        </div>
+        <ul style="list-style: none; padding: 0; margin: 20px 0;">
+            {% for feature in plan.features %}
+            <li style="padding: 8px 0;">✓ {{ feature }}</li>
+            {% endfor %}
+        </ul>
+        {% if session.user_id %}
+        <button class="btn" onclick="subscribe('{{ plan.price_id }}')">
+            このプランを選択
+        </button>
+        {% else %}
+        <a href="/register" class="btn">登録して始める</a>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+
+<div class="card" style="margin-top: 40px; text-align: center;">
+    <p>🎉 全プラン7日間の無料トライアル付き</p>
+    <p>いつでもキャンセル可能</p>
+</div>
+
+<script>
+async function subscribe(priceId) {
+    // ログインチェック
+    const response = await fetch('/api/auth/check');
+    const auth = await response.json();
+    
+    if (!auth.authenticated) {
+        alert('ログインが必要です');
+        window.location.href = '/login?next=/pricing';
+        return;
+    }
+    try {
+        const response = await fetch('/create-checkout-session', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ price_id: priceId })
+        });
+        
+        const data = await response.json();
+        
+        if (data.checkout_url) {
+            window.location.href = data.checkout_url;
+        } else {
+            alert('エラーが発生しました。もう一度お試しください。');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('エラーが発生しました。');
+    }
+}
+</script>
+{% endblock %}

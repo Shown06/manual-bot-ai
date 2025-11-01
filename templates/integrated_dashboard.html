@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>統合ダッシュボード - LINEマニュアル検索ボット</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f6fa; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1rem 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .stat-card { background: white; padding: 1.5rem; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .stat-number { font-size: 2rem; font-weight: 700; color: #667eea; }
+        .section { background: white; border-radius: 15px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .roi-positive { color: #27ae60; } .roi-negative { color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 統合ダッシュボード</h1>
+        <p>{{ user_data.company_name }} - {{ user_data.plan|title }}プラン</p>
+    </div>
+    
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">{{ daily_stats|length }}</div>
+                <div>アクティブ日数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ top_questions|length }}</div>
+                <div>人気質問数</div>
+            </div>
+            {% if roi_data %}
+            <div class="stat-card">
+                <div class="stat-number roi-{{ 'positive' if roi_data.roi_percentage > 0 else 'negative' }}">
+                    {{ "%.1f"|format(roi_data.roi_percentage) }}%
+                </div>
+                <div>ROI</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">¥{{ "{:,}"|format(roi_data.monthly_savings|int) }}</div>
+                <div>月間削減額</div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="section">
+            <h2>🔥 人気質問 TOP5</h2>
+            {% for q in top_questions %}
+            <p>{{ loop.index }}. {{ q.question }} ({{ q.count }}回)</p>
+            {% endfor %}
+        </div>
+        
+        <div class="section">
+            <h2>💰 ROI分析</h2>
+            {% if roi_data %}
+            <p>月額料金: ¥{{ "{:,}"|format(roi_data.monthly_fee|int) }}</p>
+            <p>削減効果: ¥{{ "{:,}"|format(roi_data.monthly_savings|int) }}</p>
+            <p>純利益: ¥{{ "{:,}"|format(roi_data.net_benefit|int) }}</p>
+            {% endif %}
+        </div>
+        
+        <div class="section">
+            <h2>🎯 システム機能</h2>
+            <p>✅ 無料AI検索エンジン</p>
+            <p>✅ 管理者自動通知</p>
+            <p>✅ マニュアル動的追加</p>
+            <p>✅ リアルタイム分析</p>
+            <p>✅ 自動請求書発行</p>
+        </div>
+    </div>
+</body>
+</html>

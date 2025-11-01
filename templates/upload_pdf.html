@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDFアップロード - Manual Bot AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>📄 PDFアップロード</h1>
+        <p class="text-muted">PDFファイルをアップロードして、AI解析を行います</p>
+        
+        <div class="card mt-4">
+            <div class="card-body">
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="pdfFile" class="form-label">PDFファイルを選択</label>
+                        <input type="file" class="form-control" id="pdfFile" name="file" accept=".pdf" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <span id="uploadText">アップロード</span>
+                        <span id="uploadSpinner" class="spinner-border spinner-border-sm d-none" role="status"></span>
+                    </button>
+                </form>
+                
+                <div id="result" class="mt-4 d-none">
+                    <div class="alert alert-success">
+                        <h5>✅ 変換完了！</h5>
+                        <p><strong>ページ数:</strong> <span id="pages"></span></p>
+                        <p><strong>コスト:</strong> $<span id="cost"></span></p>
+                    </div>
+                </div>
+                
+                <div id="error" class="mt-4 d-none">
+                    <div class="alert alert-danger">
+                        <strong>エラー:</strong> <span id="errorMsg"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const uploadText = document.getElementById('uploadText');
+            const uploadSpinner = document.getElementById('uploadSpinner');
+            const result = document.getElementById('result');
+            const error = document.getElementById('error');
+            
+            // UI更新
+            uploadText.textContent = '処理中...';
+            uploadSpinner.classList.remove('d-none');
+            result.classList.add('d-none');
+            error.classList.add('d-none');
+            
+            const formData = new FormData();
+            formData.append('file', document.getElementById('pdfFile').files[0]);
+            
+            try {
+                const response = await fetch('/api/convert-pdf', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('pages').textContent = data.pages;
+                    document.getElementById('cost').textContent = data.cost;
+                    result.classList.remove('d-none');
+                } else {
+                    document.getElementById('errorMsg').textContent = data.error;
+                    error.classList.remove('d-none');
+                }
+            } catch (err) {
+                document.getElementById('errorMsg').textContent = err.message;
+                error.classList.remove('d-none');
+            } finally {
+                uploadText.textContent = 'アップロード';
+                uploadSpinner.classList.add('d-none');
+            }
+        });
+    </script>
+</body>
+</html>
+
+
